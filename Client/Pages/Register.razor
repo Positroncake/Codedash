@@ -1,0 +1,67 @@
+@page "/Register"
+@inject ILocalStorageService localStorage
+@inject HttpClient HttpClient
+@using Blazored.LocalStorage
+@using codedash.Shared
+@using System.Security.Cryptography
+@using System.Text
+<h3>Register</h3>
+
+<div class="form-box">
+    <div class="form-grid">
+        <label for="signup-username">Username</label>
+        <input @bind="Username" id="signup-username" />
+        <label for="signup-password">Password</label>
+        <input type="password" @bind="Password" id="signup-password" />
+        <label for="signup-display">Display name</label>
+        <input @bind="DisplayName" id="signup-display" />
+    </div>
+    <button @onclick="AddToClass" class="btn btn-primary mt-3" id="signup-button">Register!</button>
+    <a class="mt-4" href="/login">I already have an account</a>
+</div>
+
+@code {
+    private bool isVisible = true;
+    private Guid Id;
+    // ReSharper disable InconsistentNaming
+    private string[] responseArray = new string[3];
+    private string? Username, Password, DisplayName;
+    // ReSharper restore InconsistentNaming
+
+    private Account NewAccount { get; } = new();
+
+    private void AddToClass()
+    {
+        string usernameHash, passwordHash;
+        byte[] usernameBytes = Encoding.UTF32.GetBytes(Username ?? string.Empty);
+        byte[] passwordBytes = Encoding.UTF32.GetBytes(Password ?? string.Empty);
+        using (var sha512 = SHA512.Create())
+        {
+            byte[] hashedUsernameBytes = sha512.ComputeHash(usernameBytes);
+            byte[] hashedPasswordBytes = sha512.ComputeHash(passwordBytes);
+            var usernameString = new StringBuilder(128);
+            foreach (byte x in hashedUsernameBytes) usernameString.Append(x.ToString("X2"));
+            var passwordString = new StringBuilder(128);
+            foreach (byte x in hashedPasswordBytes) passwordString.Append(x.ToString("X2"));
+            usernameHash = usernameString.ToString();
+            passwordHash = passwordString.ToString();
+        }
+
+        NewAccount.Id = Guid.NewGuid();
+        NewAccount.UsernameHash = usernameHash;
+        NewAccount.PasswordHash = passwordHash;
+        NewAccount.DisplayName = DisplayName;
+        #pragma warning disable CS4014
+        SendToController(NewAccount);
+        #pragma warning restore CS4014
+    }
+
+    private async Task SendToController(Account account)
+    {
+        HttpResponseMessage response = await HttpClient.PostAsJsonAsync("AccountApi/Register", account);
+        responseArray = response.Content.ReadFromJsonAsync<string[]>().Result ?? Array.Empty<string>();
+        await localStorage.SetItemAsync("uname", responseArray[0]);
+        await localStorage.SetItemAsync("pwd", responseArray[1]);
+        await localStorage.SetItemAsync("dname", responseArray[2]);
+    }
+}

@@ -1,0 +1,47 @@
+﻿@page "/AccountPage"
+
+<style>
+table {   
+  font-family: "Source Code Pro", sans-serif;
+  border-collapse: collapse;
+  width: 30%;
+}
+
+td, th {
+  border: 5px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+</style>
+<PageTitle>Account</PageTitle>
+<br/>
+<h3>Account Statistics:</h3>
+<br/>
+<table>
+  <tr>
+    <td>Solved codedashes</td>
+    <td>0</td>
+  </tr>
+  <tr>
+    <td>Average time</td>
+    <td>100s</td>
+  </tr>
+  <tr>
+    <td>User-submitted codedashes</td>
+    <td>5</td>
+  </tr>
+</table>
+<br/>
+<h3>User information:</h3>
+<br/>
+<table>
+  <tr>
+    <td>Username</td>
+    <td>ayay9</td>
+  </tr>
+   
+</table>
+@code {
+  private bool isLoggedIn = true;
+}

@@ -1,0 +1,55 @@
+div.form-grid {
+    display: grid;
+    gap: 0.25rem;
+    
+    align-self: stretch;
+}
+
+div.form-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    
+    width: min(500px, 100%);
+
+    padding: 0.5rem;
+    border-radius: 3px;
+
+    border: 1px solid gray;
+    background-color: gainsboro;
+}
+
+label[for="signup-username"] {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+input#signup-username {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+label[for="signup-password"] {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+input#signup-password {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+label[for="signup-display"] {
+    grid-column: 1;
+    grid-row: 3;
+}
+
+input#signup-display {
+    grid-column: 2;
+    grid-row: 3;
+}
+
+#signup-button {
+    min-width: 30%;
+    text-align: center;
+}

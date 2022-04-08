@@ -1,0 +1,65 @@
+@page "/Login"
+@inject ILocalStorageService localStorage
+@inject HttpClient HttpClient
+@using Blazored.LocalStorage
+@using codedash.Shared
+@using System.Text
+@using System.Security.Cryptography
+@using System.Net
+<h3>Login</h3>
+   
+<div class="form-box">
+    <div class="form-grid">
+        <label for="signup-username">Username</label>
+        <input @bind="Username" id="signup-username" />
+        <label for="signup-password">Password</label>
+        <input type="password" @bind="Password" id="signup-password" />
+    </div>
+    <button @onclick="HashLoginDetails" class="btn btn-primary mt-3" id="signup-button">Login!</button>
+    <a class="mt-4" href="/register">I don't have an account</a>
+</div>
+@code {
+    // ReSharper disable InconsistentNaming
+    private string? Username, Password;
+    // ReSharper restore InconsistentNaming
+    private Account NewAccount { get; } = new();
+
+    private void HashLoginDetails()
+    {
+        string usernameHash, passwordHash;
+        byte[] usernameBytes = Encoding.UTF32.GetBytes(Username ?? string.Empty);
+        byte[] passwordBytes = Encoding.UTF32.GetBytes(Password ?? string.Empty);
+        using (var sha512 = SHA512.Create())
+        {
+            byte[] hashedUsernameBytes = sha512.ComputeHash(usernameBytes);
+            byte[] hashedPasswordBytes = sha512.ComputeHash(passwordBytes);
+            var usernameString = new StringBuilder(128);
+            foreach (byte x in hashedUsernameBytes) usernameString.Append(x.ToString("X2"));
+            var passwordString = new StringBuilder(128);
+            foreach (byte x in hashedPasswordBytes) passwordString.Append(x.ToString("X2"));
+            usernameHash = usernameString.ToString();
+            passwordHash = passwordString.ToString();
+        }
+
+        NewAccount.Id = Guid.Parse("00000000-0000-0000-0000-000000000000");
+        NewAccount.UsernameHash = usernameHash;
+        NewAccount.PasswordHash = passwordHash;
+        NewAccount.DisplayName = "";
+        #pragma warning disable CS4014
+        SendToController(NewAccount);
+        #pragma warning restore CS4014
+    }
+
+    private async Task SendToController(Account account)
+    {
+        HttpResponseMessage response = await HttpClient.PostAsJsonAsync("AccountApi/Login", account);
+        if (response.IsSuccessStatusCode)
+        {
+            Console.WriteLine("Successful login.");
+            await localStorage.SetItemAsync("uname",account.UsernameHash);
+            await localStorage.SetItemAsync("pwd", account.PasswordHash);
+            await localStorage.SetItemAsync("dname", response.Content.ReadAsStringAsync().Result);
+        }
+        else Console.WriteLine("Invalid login.");
+    }
+}

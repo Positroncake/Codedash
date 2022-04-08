@@ -1,0 +1,9 @@
+# Binary folders
+Client/bin
+Client/obj
+Server/bin
+Server/obj
+Shared/bin
+Shared/obj
+# Server files
+Server/Files

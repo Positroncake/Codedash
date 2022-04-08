@@ -1,0 +1,36 @@
+@page "/submit"
+@inject HttpClient HttpClient
+<h3>SubmitCodeTest</h3>
+
+<textarea @bind="GetLines"></textarea>
+<button @onclick="Run">Run on server</button>
+<p>@_message</p>
+<p>Output:</p>
+@foreach (string str in _output)
+{
+    <p>@str</p>
+}
+
+@code {
+    List<string> _lines = new();
+    List<string> _output = new();
+    private string? _input;
+    private string _message = "Press \"Run on server\" to run your code!";
+    
+    private string GetLines
+    {
+        get => _input ?? string.Empty;
+        set
+        {
+            _input = value;
+            _lines = _input.Split('\n').ToList();
+        }
+    }
+
+    private async Task Run()
+    {
+        HttpResponseMessage response = await HttpClient.PostAsJsonAsync("SubmitCode/PythonSubmit", _lines);
+        _message = response.IsSuccessStatusCode ? "Success!" : "An error occured.";
+        _output = response.Content.ReadFromJsonAsync<List<string>>().Result ?? new List<string>();
+    }
+}
