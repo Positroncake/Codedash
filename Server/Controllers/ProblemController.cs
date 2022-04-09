@@ -26,6 +26,13 @@ public class ProblemController : ControllerBase
         return Ok(problem);
     }
 
+    [HttpGet("List")]
+    public ActionResult GetFullList()
+    {
+        List<Problem> result = _context.Problem!.ToList();
+        return Ok(result);
+    }
+
     [NonAction]
     private Problem? FindProblem(string id)
     {
