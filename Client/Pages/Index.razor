@@ -6,23 +6,23 @@
 <PageTitle>Home</PageTitle>
 
 <h1>Welcome to codedash!</h1>
-<pre id="codedash-problem-block">
-@foreach (string str in peopleList)
-{
-    if (str.Equals("ayay9"))
-    {
-        <p style="color: blue">@str</p>
-    }
-    else
-    {
-        <p>@str</p>
-    }
-}
-</pre>
-
+<p>
+    <!--This is what the lorem ipsum actually translates to: https://www.lipsum.com/-->
+    This is placeholder text. This sentence is also placeholder text. 
+    I'm lazy, so I'll just repeat these sentences.
+    This is placeholder text. This sentence is also placeholder text. 
+    I'm lazy, so I'll just repeat these sentences.
+    This is placeholder text. This sentence is also placeholder text. 
+    I'm lazy, so I'll just repeat these sentences.
+    This is placeholder text. This sentence is also placeholder text. 
+    I'm lazy, so I'll just repeat these sentences.
+    This is placeholder text. This sentence is also placeholder text. 
+    I'm lazy, so I'll just repeat these sentences.
+    This is placeholder text. This sentence is also placeholder text. 
+    I'm lazy, so I'll just repeat these sentences.
+</p>
 
 @code {
-    private List<string> peopleList = new() { "ayay9", "doris", "superminer" };
 
     protected override void OnInitialized()
     {
