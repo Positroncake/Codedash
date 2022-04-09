@@ -1,6 +1,6 @@
 @page "/Register"
-@inject ILocalStorageService localStorage
 @inject HttpClient HttpClient
+@inject ILocalStorageService localStorage
 @using Blazored.LocalStorage
 @using codedash.Shared
 @using System.Security.Cryptography
@@ -14,35 +14,41 @@ input[type~="text"],[type~="password"]{
   border-bottom: 3px solid black;
 }
 </style>
-
-<p>&nbsp</p>
-<h1 align="center">Register</h1>
-<p>&nbsp</p>
-<div align="center">
-    <div style = "color: #525151" class="form-box">
-        <div class="form-grid">
-            <div align="left">
-                <label for="signup-username">Username</label>
+<style>
+    body {
+      background-image: linear-gradient(to right, #ddd6f3, #faaca8);
+    }
+</style>
+<body>
+    <p>&nbsp</p>
+    <h1 align="center">Register</h1>
+    <p>&nbsp</p>
+    <div align="center">
+        <div style = "color: #525151" class="form-box">
+            <div class="form-grid">
+                <div align="left">
+                    <label for="signup-username">Username</label>
+                </div>
+                <input type="text"@bind="Username" id="signup-username" />
+                <div align="left">
+                    <label for="signup-password">Password</label>
+                </div>
+                <input type="password" @bind="Password" id="signup-password" />
+                <div align="left">
+                    <label for="signup-display">Display name</label>
+                </div>
+                <input type="text"@bind="DisplayName" id="signup-display" />
             </div>
-            <input type="text"@bind="Username" id="signup-username" />
-            <div align="left">
-                <label for="signup-password">Password</label>
-            </div>
-            <input type="password" @bind="Password" id="signup-password" />
-            <div align="left">
-                <label for="signup-display">Display name</label>
-            </div>
-            <input type="text"@bind="DisplayName" id="signup-display" />
+              
+            <button @onclick="AddToClass" class="btn btn-primary mt-3 align-self-end">Register!</button>
+            <a class="mt-4 align-self-end" href="/login">I already have an account</a>
         </div>
-          
-        <button @onclick="AddToClass" class="btn btn-primary mt-3 align-self-end">Register!</button>
-        <a class="mt-4 align-self-end" href="/login">I already have an account</a>
     </div>
-</div>
+
+</body>
 
 
 @code {
-    private string accountToken = "";
     private bool isVisible = true;
     private Guid Id;
     // ReSharper disable InconsistentNaming
@@ -80,7 +86,7 @@ input[type~="text"],[type~="password"]{
     private async Task SendToController(Account account)
     {
         HttpResponseMessage response = await HttpClient.PostAsJsonAsync("AccountApi/Register", account);
-        accountToken = await response.Content.ReadAsStringAsync();
-        await localStorage.SetItemAsync("asdfgh", accountToken);
+        string accountToken = response.Content.ReadFromJsonAsync<string>().Result!;
+        await localStorage.SetItemAsync("loginToken", accountToken);
     }
 }
