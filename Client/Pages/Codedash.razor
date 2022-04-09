@@ -1,5 +1,6 @@
 @page "/Codedash"
 @using codedash.Client.Data
+@using System.Text.Json
 
 
 @code {
@@ -10,6 +11,6 @@
         base.OnInitialized();
 
         var pbs = ProblemBlock.ParseProblemString(tempSequence);
-        Console.WriteLine(pbs);
+        Console.WriteLine(JsonSerializer.Serialize(pbs));
     }
 }
