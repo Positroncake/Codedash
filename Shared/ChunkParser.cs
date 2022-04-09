@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text.Json;
 using codedash.Shared;
 
-namespace codedash.Client.Data;
+namespace codedash.Shared;
 
 public class ProblemBlock
 {
