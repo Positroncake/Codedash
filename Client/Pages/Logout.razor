@@ -2,6 +2,7 @@
 @using Blazored.LocalStorage
 @inject HttpClient HttpClient
 @inject ILocalStorageService localStorage
+@inject NavigationManager NavigationManager
 
 <br/>
 <style>
@@ -23,6 +24,9 @@
         _response = await HttpClient.DeleteAsync($"TokenApi/Logout/{_result}");
         Console.WriteLine(_response);
         await localStorage.RemoveItemAsync("loginToken");
+
+        await Task.Delay(3);
+        NavigationManager.NavigateTo("/");
     }
 
 }
