@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text.Json;
 using codedash.Shared;
 
 namespace codedash.Client.Data;
@@ -12,19 +13,18 @@ public class ProblemBlock
 
     public static List<ProblemBlock> ParseProblemString(string str)
     {
-        Console.WriteLine(str.Split('\u001E').Length);
-        return str.Split('\u001E').Select(r =>
+        return str.Split('\u001E', '\n').Select(r =>
         {
             string[] fields = r.Split('\u001F');
-            
+            Console.WriteLine(JsonSerializer.Serialize(fields));
             ProblemBlock block = new()
             {
                 Content = fields[0],
                 IsInput = ((Func<bool>)(() =>
                 {
-                    if (str == "1") return true;
-                    if (str == "0") return false;
-                    throw new ArgumentException($"Invalid boolean {str}");
+                    if (fields[1] == "1") return true;
+                    if (fields[1] == "0") return false;
+                    throw new ArgumentException($"Invalid boolean {fields[1]}");
                 }))(),
                 FieldLength = ((Func<int?>) (() =>
                 {
