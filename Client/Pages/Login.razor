@@ -6,20 +6,31 @@
 @using System.Text
 @using System.Security.Cryptography
 @using System.Net
-<h3>Login</h3>
-
-
-<div style = "color: #525151" class="form-box">
-    <div class="form-grid">
-        <label for="signup-username">Username</label>
-        <input @bind="Username" id="signup-username" />
-        <label for="signup-password">Password</label>
-        <input type="password" @bind="Password" id="signup-password" />
+<p>&nbsp</p>
+<div align="center">
+    <h1>Login</h1>
+</div>
+<p>&nbsp</p>
+<div align="center">
+    <div style = "color: #525151" class="form-box">
+        <div class="form-grid">
+            <div align="left">
+                <label for="signup-username">Username</label>
+            </div>
+            <input @bind="Username" id="signup-username"/>
+            <div align="left">
+                <label for="signup-password">Password</label>
+            </div>
+            <input type="password" @bind="Password" id="signup-password"/>
+             
+        </div>
+        <button @onclick="HashLoginDetails" class="btn btn-primary mt-3 align-self-end" id="signup-button">Login!</button>
+        
+        <a class="mt-4 align-self-end" href="/register">I don't have an account</a> 
         
     </div>
-    <button @onclick="HashLoginDetails" class="btn btn-primary mt-3 align-self-end" id="signup-button">Login!</button>
-    <a class="mt-4" href="/register">I don't have an account</a>
 </div>
+
 @code {
     // ReSharper disable InconsistentNaming
     private string? Username, Password;
