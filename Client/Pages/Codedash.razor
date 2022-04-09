@@ -4,7 +4,7 @@
 @using Microsoft.AspNetCore.Components
 @using codedash.Client.Data
 
-<h2 align="center">@title</h2>
+<h2 class="text-center">@title</h2>
 <style> 
 input[type~="text"], textarea{
   width: 10%;
@@ -14,35 +14,36 @@ input[type~="text"], textarea{
   border-bottom: 3px solid green;
 }
 </style>
-<div align="center">
+<div class="center-content">
     <pre id="codedash-problem">
-    @{ int c = 0;}
-    <div align="left">
-        @foreach (var i in pbs)
-        { 
-            if (i.IsInput)
+    @{ int c = 0; }
+    <div class="text-start">
+        @foreach (var (index, block) in pbs.Collect(0, (i, block) =>
+        {
+            var next = block.IsInput ? i + 1 : i;
+            return ((i, block), next);
+        }))
+        {
+            if (block.IsInput)
             {
-                <input type="text"@bind="inputs[c]" size="@i.FieldLength"/>
+                <input type="text" class="@styles[index]" @bind="inputs[c]" size="@block.FieldLength"/>
                 c++;
             }
             else
             {
-                <span style="font-size:18px; font-family:'Source Code Pro'">
-                    <span style="white-space: pre">@i.Content</span>
-                </span>
+                <span style="white-space: pre">@block.Content</span>
             }
         }
     </div>
     </pre>
     <button @onclick="Submit" class="btn btn-primary mt-3 align-self-end">Submit!</button>
-
 </div>
 
 @code {
     private static string tempSequence = "for i in range(6):\u000a    print(\u001f0\u001f-1\u001e\"ay\"\u001f1\u001f6\u001e, end='')\u000aprint('9')\u000a\u000aprint('ay' * 64 + '9')\u001f0\u001f-1";
-    
+
     // "ay" problem: 27aad10f-f8d2-4a4a-ab84-351eec0244e0
-    
+
     [Parameter]
     [SupplyParameterFromQuery(Name = "id")]
     public string? id { get; set; }
@@ -50,25 +51,40 @@ input[type~="text"], textarea{
     private string title = "";
     private List<ProblemBlock> pbs = new();
     private List<string> inputs = new();
+    private List<string> styles = new();
 
     protected override async Task OnInitializedAsync()
     {
         HttpResponseMessage response = await HttpClient.GetAsync($"ProblemApi/Get/{id}");
         var p = (await response.Content.ReadFromJsonAsync<Problem>())!;
         Console.WriteLine(id);
-        
+
         title = p.Title!;
         pbs = ProblemBlock.ParseProblemString(p.Chunks!);
-        // Resize input list to match
-        inputs.Resize(pbs.Aggregate(0, (curr, next) => next.IsInput? curr + 1 : curr), "");
-        
+    // Resize input list to match
+        var size = pbs.Aggregate(0, (curr, next) => next.IsInput ? curr + 1 : curr);
+        inputs.Resize(size, "");
+        styles.Resize(size, "");
     }
 
     private async void Submit()
     {
         HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"ProblemApi/Verify/{id}", inputs);
         List<int> results = response.Content.ReadFromJsonAsync<List<int>>().Result!;
-        foreach (int x in results) Console.WriteLine(x);
+        foreach (var (value, index) in results.Select((v, i) => (v, i)))
+        {
+            switch (value)
+            {
+                case 0:
+                    styles[index] = "blank-wrong";
+                    break;
+                case 1:
+                    styles[index] = "blank-correct";
+                    break;
+                default:
+                    throw new InvalidOperationException("Blank broke");
+            }
+        }
     }
 
 }

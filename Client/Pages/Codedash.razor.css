@@ -1,8 +1,27 @@
-pre {
+#codedash-problem {
     padding: 5px;
     border-radius: 5px;
     
-    width: min(500px, 100%);
+    width: min(500px, 95vw);
+    margin-left: auto;
+    margin-right: auto;
 
     background-color: #AAA;
+}
+
+#codedash-problem input {
+    border: 1px solid gray;
+    border-bottom: 3px solid black;
+}
+
+#codedash-problem input.blank-correct {
+    border-bottom-color: #0A0 !important;
+}
+
+#codedash-problem input.blank-wrong {
+    border-bottom-color: #A00 !important;
+}
+
+div.center-content {
+    text-align: center;
 }
