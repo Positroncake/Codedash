@@ -18,7 +18,7 @@ public class AccountDbContext : DbContext
     #region Overidden methods
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Account>().HasData(GetProducts());
+        modelBuilder.Entity<Account>().HasData(GetAccounts());
         base.OnModelCreating(modelBuilder);
     }
     #endregion
@@ -26,7 +26,7 @@ public class AccountDbContext : DbContext
 
     #region Private methods
 
-    private IEnumerable<Account> GetProducts()
+    private static IEnumerable<Account> GetAccounts()
     {
         return new List<Account>
         {

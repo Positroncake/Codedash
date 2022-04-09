@@ -8,6 +8,11 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<ProblemDbContext>(options =>
+{
+    options.UseSqlite("Data source = Problems.db");
+});
+builder.Services.AddScoped<ProblemServices>();
 builder.Services.AddDbContext<AccountDbContext>(options =>
 {
     options.UseSqlite("Data source = Accounts.db");
