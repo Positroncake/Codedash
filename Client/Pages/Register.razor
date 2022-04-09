@@ -5,6 +5,15 @@
 @using codedash.Shared
 @using System.Security.Cryptography
 @using System.Text
+<style> 
+input[type~="text"],[type~="password"]{
+  width: 100%;
+  padding: 2px 10px;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 3px solid black;
+}
+</style>
 
 <p>&nbsp</p>
 <h1 align="center">Register</h1>
@@ -15,7 +24,7 @@
             <div align="left">
                 <label for="signup-username">Username</label>
             </div>
-            <input @bind="Username" id="signup-username" />
+            <input type="text"@bind="Username" id="signup-username" />
             <div align="left">
                 <label for="signup-password">Password</label>
             </div>
@@ -23,7 +32,7 @@
             <div align="left">
                 <label for="signup-display">Display name</label>
             </div>
-            <input @bind="DisplayName" id="signup-display" />
+            <input type="text"@bind="DisplayName" id="signup-display" />
         </div>
           
         <button @onclick="AddToClass" class="btn btn-primary mt-3 align-self-end">Register!</button>
