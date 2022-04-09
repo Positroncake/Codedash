@@ -37,7 +37,7 @@
     protected override async Task OnInitializedAsync()
     {
         HttpResponseMessage response = await HttpClient.GetAsync($"ProblemApi/Get/{id}");
-        Problem p = (await response.Content.ReadFromJsonAsync<Problem>())!;
+        var p = (await response.Content.ReadFromJsonAsync<Problem>())!;
         Console.WriteLine(id);
         
         title = p.Title!;
@@ -47,17 +47,12 @@
         
     }
 
-    private void Submit()
-    {
-        foreach (string input in inputs) Console.WriteLine($"Input: {input}.");
-        SendToController().Wait();
-    }
-
-    private async Task SendToController()
+    private async void Submit()
     {
         HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"ProblemApi/Verify/{id}", inputs);
-        List<int> results = response.Content.ReadFromJsonAsync<List<int>>().Result!;
-        foreach (int x in results) Console.WriteLine(x);
+        Console.WriteLine(await response.Content.ReadAsStringAsync());
+    // List<int> results = response.Content.ReadFromJsonAsync<List<int>>().Result!;
+        // foreach (int x in results) Console.WriteLine(x);
     }
 
 }

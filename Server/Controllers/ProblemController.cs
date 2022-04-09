@@ -49,14 +49,13 @@ public class ProblemController : ControllerBase
             return NotFound($"Could not find item with ID {id} in database");
         }
 
-        var blocks = ProblemBlock.ParseProblemString(problem.Chunks!)
+        IEnumerable<string> blocks = ProblemBlock.ParseProblemString(problem.Chunks!)
             .Where((chunk) => chunk.IsInput).Select((chunk, idx) => chunk.Content);
 
         // Zip/Select does interleave
-        var args = vals.Zip(blocks, (val, block) => new { Val = val, Block = block })
+        List<string> args = vals.Zip(blocks, (val, block) => new { Val = val, Block = block })
             .SelectMany((pack) => new[] { pack.Val, pack.Block }).ToList();
         
-        // var matches = TokenMatch(args);
         string matches = TokenMatch(args);
         
         return Ok(matches);

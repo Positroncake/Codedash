@@ -1,6 +1,6 @@
 @page "/Register"
-@inject HttpClient HttpClient
 @inject ILocalStorageService localStorage
+@inject HttpClient HttpClient
 @using Blazored.LocalStorage
 @using codedash.Shared
 @using System.Security.Cryptography
@@ -42,6 +42,7 @@ input[type~="text"],[type~="password"]{
 
 
 @code {
+    private string accountToken = "";
     private bool isVisible = true;
     private Guid Id;
     // ReSharper disable InconsistentNaming
@@ -79,7 +80,7 @@ input[type~="text"],[type~="password"]{
     private async Task SendToController(Account account)
     {
         HttpResponseMessage response = await HttpClient.PostAsJsonAsync("AccountApi/Register", account);
-        string accountToken = response.Content.ReadFromJsonAsync<string>().Result!;
-        await localStorage.SetItemAsync("loginToken", accountToken);
+        accountToken = await response.Content.ReadAsStringAsync();
+        await localStorage.SetItemAsync("asdfgh", accountToken);
     }
 }
