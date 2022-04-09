@@ -1,0 +1,23 @@
+@page "/Listing"
+@using codedash.Shared
+@inject HttpClient HttpClient
+<h3>Listing</h3>
+
+@if (Problems.Count > 0)
+{
+    @foreach (Problem problem in Problems)
+    {
+        <p>Title: @problem.Title   |   Difficulty (/10): @problem.Difficulty.ToString()   |   Made by users: @problem.IsUserMade.ToString()</p>
+    }
+}
+
+@code {
+    List<Problem>? Problems = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await HttpClient.GetFromJsonAsync<List<Problem>>("/ProblemApi/List");
+        Problems = result;
+    }
+
+}
