@@ -1,14 +1,17 @@
-@page "/Codedash"
+@page "/Codedash/{hexdump}"
 @inject HttpClient HttpClient
 @using codedash.Shared
+@using System.Text
+
+<span style="white-space: pre">Input sequence:</span>
+<button @onclick="Parse">Parse</button>
 
 <pre id="codedash-problem">
 @foreach (var block in pbs)
 {
     if (block.IsInput)
     {
-        <input @bind="inputs[index]" size="@block.FieldLength.ToString()"/>
-        if (index < inputs.Count - 1) ++index;
+        <input size="@block.FieldLength.ToString()"/>
     }
     else
     {
@@ -20,15 +23,29 @@
 <button @onclick="Submit">Submit</button>
 
 @code {
-    private static string tempSequence = "for i in range(6):\u000a    print(\u001f0\u001f-1\u001e\"ay\"\u001f1\u001f6\u001e, end='')\u000aprint('9')\u000a\u000aprint('ay' * 64 + '9')\u001f0\u001f-1";
-
-    private int index;
-    private List<ProblemBlock> pbs = ProblemBlock.ParseProblemString(tempSequence);
+    [Parameter]
+    public string? hexdump { get; set; }
+    private List<ProblemBlock> pbs = new();
     private List<string> inputs = new();
-    
-    protected override void OnInitialized()
+
+    private void Parse()
     {
-        foreach (ProblemBlock chunk in pbs.Where(chunk => chunk.IsInput)) inputs.Add(string.Empty);
+        byte[] data = FromHex(hexdump);
+        string str = Encoding.ASCII.GetString(data);
+
+        byte[] FromHex(string hex)
+        {
+            hex = hex.Replace("-", "");
+            var raw = new byte[hex.Length / 2];
+            for (int i = 0; i < raw.Length; i++)
+            {
+                raw[i] = Convert.ToByte(hex.Substring(i * 2, 2), 16);
+            }
+            return raw;
+        }
+
+        pbs = ProblemBlock.ParseProblemString(str);
+        // foreach (ProblemBlock chunk in pbs.Where(chunk => chunk.IsInput)) inputs.Add(string.Empty);
         Console.WriteLine("DEBUG// Done");
     }
 
