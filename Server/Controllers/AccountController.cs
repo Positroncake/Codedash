@@ -44,7 +44,9 @@ public class RegisterController : ControllerBase
         if (result) return Ok(displayName);
         return NotFound();
     }
-
+    
+    // note to Chris: KEEP THIS HERE
+    [NonAction]
     public (bool, string?) ValidateAccount(Account query)
     {
         // Search for account with specified username
