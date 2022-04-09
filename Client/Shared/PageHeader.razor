@@ -1,6 +1,7 @@
 ﻿@using Blazored.LocalStorage
 @inject ILocalStorageService localStorage
-@inject NavigationManager NavigationManager
+@using Microsoft.AspNetCore.Components
+@inject NavigationManager navigationManager
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark w-100 px-2">
     <div class="container-fluid justify-content-start">
@@ -24,16 +25,16 @@
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item me-0 @(_displayRegistrationAndLogin ? "" : "d-none")">
+                <li class="nav-item me-0 @(_userNotLoggedIn ? "" : "d-none")">
                     <a class="nav-link" href="/register">Register</a>
                 </li>
-                <li class="nav-item me-0 @(_displayRegistrationAndLogin ? "" : "d-none")">
+                <li class="nav-item me-0 @(_userNotLoggedIn ? "" : "d-none")">
                     <a class="nav-link" href="/login">Login</a>
                 </li>
-                <li class="nav-item me-0 @(!_displayRegistrationAndLogin ? "" : "d-none")">
+                <li class="nav-item me-0 @(!_userNotLoggedIn ? "" : "d-none")">
                     <a class="nav-link" href="/logout">Logout</a>
                 </li>
-                <li class="nav-item me-0 @(!_displayRegistrationAndLogin ? "" : "d-none")">
+                <li class="nav-item me-0 @(!_userNotLoggedIn ? "" : "d-none")">
                     <a class="nav-link" href="/accountpage">My account</a>
                 </li>
             </ul>
@@ -42,16 +43,16 @@
 </nav>
 
 @code {
-    private static bool _displayRegistrationAndLogin = false;
+    private static bool _userNotLoggedIn = false;
 
     protected override async Task OnInitializedAsync()
     {
-        NavigationManager.LocationChanged += (_, _) => CheckState();
+        navigationManager.LocationChanged += (object? src, LocationChangedEventArgs evt) => CheckState();
     }
-    
+
     private async void CheckState()
     {
-        _displayRegistrationAndLogin = !await localStorage.ContainKeyAsync("loginToken");
+        _userNotLoggedIn = !await localStorage.ContainKeyAsync("loginToken");
         await Task.Delay(0);
         StateHasChanged();
     }
