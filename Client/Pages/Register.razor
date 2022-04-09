@@ -5,20 +5,32 @@
 @using codedash.Shared
 @using System.Security.Cryptography
 @using System.Text
-<h3>Register</h3>
 
-<div style = "color: #525151" class="form-box">
-    <div class="form-grid">
-        <label for="signup-username">Username</label>
-        <input @bind="Username" id="signup-username" />
-        <label for="signup-password">Password</label>
-        <input type="password" @bind="Password" id="signup-password" />
-        <label for="signup-display">Display name</label>
-        <input @bind="DisplayName" id="signup-display" />
+<p>&nbsp</p>
+<h1 align="center">Register</h1>
+<p>&nbsp</p>
+<div align="center">
+    <div style = "color: #525151" class="form-box">
+        <div class="form-grid">
+            <div align="left">
+                <label for="signup-username">Username</label>
+            </div>
+            <input @bind="Username" id="signup-username" />
+            <div align="left">
+                <label for="signup-password">Password</label>
+            </div>
+            <input type="password" @bind="Password" id="signup-password" />
+            <div align="left">
+                <label for="signup-display">Display name</label>
+            </div>
+            <input @bind="DisplayName" id="signup-display" />
+        </div>
+         
+        <button @onclick="AddToClass" class="btn btn-primary mt-3 align-self-end" id="signup-button">Register!</button>
+        <a class="mt-4 align-self-end" href="/login">I already have an account</a>
     </div>
-    <button @onclick="AddToClass" class="btn btn-primary mt-3" id="signup-button">Register!</button>
-    <a class="mt-4" href="/login">I already have an account</a>
 </div>
+
 
 @code {
     private bool isVisible = true;
