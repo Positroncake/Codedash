@@ -27,4 +27,10 @@ public class ProblemController : ControllerBase
     {
         return _context.Problem!.FirstOrDefault(p => p.Id == id, null);
     }
+
+    [HttpPost("Verify")]
+    public ActionResult CheckProblem(Guid id)
+    {
+        return new StatusCodeResult(StatusCodes.Status501NotImplemented);
+    }
 };
