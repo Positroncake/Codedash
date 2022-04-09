@@ -17,7 +17,7 @@ public class ProblemController : ControllerBase
     }
 
     [HttpGet("Get")]
-    public ActionResult GetProblemById(Guid id)
+    public ActionResult GetProblemById(string id)
     {
         Problem? problem = FindProblem(id);
         if (problem is null) return NotFound();
@@ -25,15 +25,16 @@ public class ProblemController : ControllerBase
     }
 
     [NonAction]
-    private Problem? FindProblem(Guid id)
+    private Problem? FindProblem(string id)
     {
-        return _context.Problem!.FirstOrDefault(p => p.Id == id, null);
+        return _context.Problem!.ToList().FirstOrDefault(problem => problem.Id!.Equals(id));
     }
 
-    [HttpPost("Verify")]
-    public ActionResult CheckProblem([FromQuery] Guid id, List<string> vals)
+    [HttpPost("Verify/{id}")]
+    public ActionResult CheckProblem([FromRoute] string id, List<string> vals)
     {
         Problem problem;
+        id = id.ToLowerInvariant();
         try
         {
             problem = ((Func<Problem>)(() =>
@@ -45,7 +46,7 @@ public class ProblemController : ControllerBase
         }
         catch (InvalidOperationException)
         {
-            return NotFound();
+            return NotFound($"Could not find item with ID {id} in database");
         }
 
         var blocks = ProblemBlock.ParseProblemString(problem.Chunks!)
@@ -55,15 +56,16 @@ public class ProblemController : ControllerBase
         var args = vals.Zip(blocks, (val, block) => new { Val = val, Block = block })
             .SelectMany((pack) => new[] { pack.Val, pack.Block }).ToList();
         
-        var matches = TokenMatch(args);
+        // var matches = TokenMatch(args);
+        string matches = TokenMatch(args);
         
         return Ok(matches);
     }
 
     [NonAction]
-    private List<int> TokenMatch(List<string> args)
+    private string TokenMatch(List<string> args)
     {
-        args.Prepend("Python/token-match.py");
+        args.Insert(0, "Python/token-match.py");
 
         var startInfo = new ProcessStartInfo
         {
@@ -75,13 +77,14 @@ public class ProblemController : ControllerBase
             startInfo.ArgumentList.Add(a);
         }
 
-        var proc = new Process
+        var process = new Process
         {
             StartInfo = startInfo
         };
-        proc.Start();
-        string output = proc.StandardOutput.ReadToEnd();
-        proc.WaitForExit();
-        return Regex.Split(output, "\r?\n").Select((val, idx) => int.Parse(val)).ToList();
+        process.Start();
+        string output = process.StandardOutput.ReadToEnd();
+        process.WaitForExit();
+        return output;
+        // return Regex.Split(output, "\r?\n").Select((val, idx) => int.Parse(val)).ToList();
     }
 };
