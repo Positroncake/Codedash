@@ -8,10 +8,12 @@ namespace codedash.Server.Controllers;
 public class RegisterController : ControllerBase
 {
     private readonly AccountDbContext _context;
+    private readonly TokenDbContext _tokenContext;
 
-    public RegisterController(AccountDbContext context)
+    public RegisterController(AccountDbContext context, TokenDbContext tokenContext)
     {
         _context = context;
+        _tokenContext = tokenContext;
     }
     
     [HttpPost]
@@ -21,7 +23,14 @@ public class RegisterController : ControllerBase
         try
         {
             AddToDb(account);
-            return Ok(new[] {account.UsernameHash, account.PasswordHash, account.DisplayName});
+            string tokenString = TokenGen.GenerateToken().ToLowerInvariant();
+            RegisterToken(new Token
+            {
+                Id = Guid.NewGuid().ToString().ToLowerInvariant(),
+                TokenString = tokenString,
+                UsernameHash = account.UsernameHash
+            });
+            return Ok(tokenString);
         }
         catch (Exception e)
         {
@@ -34,6 +43,13 @@ public class RegisterController : ControllerBase
     {
         _context.Add(account);
         await _context.SaveChangesAsync();
+    }
+
+    [NonAction]
+    private async Task RegisterToken(Token token)
+    {
+        _tokenContext.Add(token);
+        await _tokenContext.SaveChangesAsync();
     }
 
     [HttpPost]

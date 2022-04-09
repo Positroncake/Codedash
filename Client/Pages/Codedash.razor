@@ -23,8 +23,8 @@
 <button @onclick="Submit">Submit</button>
 
 @code {
-    [Parameter]
-    public string? hexdump { get; set; }
+    [Parameter] public string? hexdump { get; set; }
+    private int index;
     private List<ProblemBlock> pbs = new();
     private List<string> inputs = new();
 
@@ -45,7 +45,7 @@
         }
 
         pbs = ProblemBlock.ParseProblemString(str);
-        // foreach (ProblemBlock chunk in pbs.Where(chunk => chunk.IsInput)) inputs.Add(string.Empty);
+        foreach (ProblemBlock chunk in pbs.Where(chunk => chunk.IsInput)) inputs.Add(string.Empty);
         Console.WriteLine("DEBUG// Done");
     }
 
