@@ -24,7 +24,7 @@ namespace codedash.Server.Migrations.ProblemDb
             migrationBuilder.InsertData(
                 table: "Problem",
                 columns: new[] { "Id", "Chunks" },
-                values: new object[] { new Guid("e5e0b45f-d115-44e8-b256-8d5032c5b877"), "ayay01-19112" });
+                values: new object[] { new Guid("6b017c7b-660e-4780-ad01-519d28342938"), "print(\"Hi\")0-1\nprint(0-1Hello, World!113)0-1" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

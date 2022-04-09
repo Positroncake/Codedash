@@ -11,8 +11,8 @@ using codedash.Shared;
 namespace codedash.Server.Migrations
 {
     [DbContext(typeof(AccountDbContext))]
-    [Migration("20220408012141_Initial Database Creation")]
-    partial class InitialDatabaseCreation
+    [Migration("20220409023933_Initial database creation")]
+    partial class Initialdatabasecreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -41,14 +41,14 @@ namespace codedash.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("006cda85-4ebe-4aac-8c58-65103508513f"),
+                            Id = new Guid("99cc2291-71cf-4015-9463-35eefa17fc5d"),
                             DisplayName = "Generic PCI Device",
                             PasswordHash = "c2015c71296c09ac3279d2d27a35b0fd58bb39f5b184a160f52e39c495056494f2eae2c84bc90f24013580bf9e34c318c98c27a85d0b88e63f4ef4c695d6699b",
                             UsernameHash = "3a2bdfc8841a6b57e71e90983ccd34cd7c8950d2d59506c9df7565978d1891ab11c7c2fc8948d1109eb098e8d016e2d4999a404d0e15ae0ce5637b0482446c0e"
                         },
                         new
                         {
-                            Id = new Guid("dcf4771f-c6a5-413d-be45-d4f054c08f9a"),
+                            Id = new Guid("80d7c080-c742-4a54-a076-31099824e09b"),
                             DisplayName = "Generic electron",
                             PasswordHash = "d2015c71296c09ac3279d2d27a35b0fd58bb39f5b184a160f52e39c495056494f2eae2c84bc90f24013580bf9e34c318c98c27a85d0b88e63f4ef4c695d6699b",
                             UsernameHash = "4a2bdfc8841a6b57e71e90983ccd34cd7c8950d2d59506c9df7565978d1891ab11c7c2fc8948d1109eb098e8d016e2d4999a404d0e15ae0ce5637b0482446c0e"
