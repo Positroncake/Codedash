@@ -10,7 +10,7 @@ using codedash.Shared;
 namespace codedash.Server.Migrations.ProblemDb
 {
     [DbContext(typeof(ProblemDbContext))]
-    [Migration("20220409085402_Initial database creation")]
+    [Migration("20220409160941_Initial database creation")]
     partial class Initialdatabasecreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,6 +29,12 @@ namespace codedash.Server.Migrations.ProblemDb
                     b.Property<int>("Difficulty")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("IsUserMade")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Output")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
@@ -39,16 +45,20 @@ namespace codedash.Server.Migrations.ProblemDb
                     b.HasData(
                         new
                         {
-                            Id = "e9410cd7-c31d-4635-adcf-787c7e6f57b8",
+                            Id = "09bceebe-e9f4-4e2e-8d5e-121f9a32e642",
                             Chunks = "print(\"Hi\")\nprint(0-1\"Hello, World!\"113)0-1",
                             Difficulty = 0,
+                            IsUserMade = false,
+                            Output = "Hi\nHello, World!",
                             Title = "Sample 0"
                         },
                         new
                         {
-                            Id = "27aad10f-f8d2-4a4a-ab84-351eec0244e0",
+                            Id = "f412592f-9669-4f66-99c9-3381710de524",
                             Chunks = "for i in range(6):\n    print(0-1\"ay\"16, end='')\nprint('9')\n\nprint('ay' * 64 + '9')0-1",
                             Difficulty = 0,
+                            IsUserMade = false,
+                            Output = "ayayayayayay9\nayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayayay9",
                             Title = "Sample 1"
                         });
                 });

@@ -56,26 +56,30 @@ public class RegisterController : ControllerBase
     [Route("Login")]
     public ActionResult Login(Account account)
     {
-        (bool result, string? displayName) = ValidateAccount(account);
-        if (result) return Ok(displayName);
-        return NotFound();
+        bool result = ValidateAccount(account);
+        if (!result) return NotFound();
+        
+        // Delete old tokens by scanning through the database
+        List<Token> items = _tokenContext.Token!.ToList();
+        foreach (Token item in items.Where(x => x.UsernameHash!.Equals(account.UsernameHash))) _tokenContext.Token!.Remove(item);
+        _tokenContext.SaveChanges();
+
+        // Generate a new token
+        string tokenString = TokenGen.GenerateToken().ToLowerInvariant();
+        RegisterToken(new Token
+        {
+            Id = Guid.NewGuid().ToString().ToLowerInvariant(),
+            TokenString = tokenString,
+            UsernameHash = account.UsernameHash
+        });
+        return Ok(tokenString);
     }
 
     [NonAction]
-    public (bool, string?) ValidateAccount(Account query)
+    public bool ValidateAccount(Account query)
     {
         // Search for account with specified username
         Account? result = _context.Account!.FirstOrDefault(acc => acc.UsernameHash == query.UsernameHash);
-        // If account not found
-        if (result is null) return (false, "");
-        // If account is found validate password
-        // ReSharper disable once ConvertIfStatementToReturnStatement
-        if (query.PasswordHash!.Equals(result!.PasswordHash))
-        {
-            // If password is valid fetch and return display name
-            return (true, result.DisplayName);
-        }
-        // If password is invalid return an empty display name
-        return (false, "");
+        return result != null && query.PasswordHash!.Equals(result!.PasswordHash);
     }
 }

@@ -85,11 +85,8 @@ input[type~="text"],[type~="password"]{
         HttpResponseMessage response = await HttpClient.PostAsJsonAsync("AccountApi/Login", account);
         if (response.IsSuccessStatusCode)
         {
-            Console.WriteLine("Successful login.");
-            await localStorage.SetItemAsync("uname",account.UsernameHash);
-            await localStorage.SetItemAsync("pwd", account.PasswordHash);
-            await localStorage.SetItemAsync("dname", response.Content.ReadAsStringAsync().Result);
+            string token = await response.Content.ReadAsStringAsync();
+            await localStorage.SetItemAsync("loginToken", token);
         }
-        else Console.WriteLine("Invalid login.");
     }
 }

@@ -81,6 +81,7 @@ input[type~="text"],[type~="password"]{
     {
         HttpResponseMessage response = await HttpClient.PostAsJsonAsync("AccountApi/Register", account);
         accountToken = await response.Content.ReadAsStringAsync();
-        await localStorage.SetItemAsync("asdfgh", accountToken);
+        await localStorage.SetItemAsync("loginToken", accountToken);
+        string x = localStorage.GetItemAsync<string>("loginToken").Result;
     }
 }
