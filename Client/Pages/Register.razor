@@ -20,35 +20,23 @@ input[type~="text"],[type~="password"]{
     }
 </style>
 
-<div align="center">
-    <body align="center">
-        <p>&nbsp</p>
-        <h1 class="text-center">Register</h1>
-        <p>&nbsp</p>
-        <div class="center">
-            <div style = "color: #525151" class="form-box">
-                <div class="form-grid">
-                    <div class="text-start">
-                        <label for="signup-username">Username</label>
-                    </div>
-                    <input type="text"@bind="Username" id="signup-username" />
-                    <div class="text-start">
-                        <label for="signup-password">Password</label>
-                    </div>
-                    <input type="password" @bind="Password" id="signup-password" />
-                    <div class="text-start">
-                        <label for="signup-display">Display name</label>
-                    </div>
-                    <input type="text"@bind="DisplayName" id="signup-display" />
-                </div>
-                  
-                <button @onclick="AddToClass" class="btn btn-primary mt-3 align-self-end">Register!</button>
-                <a class="mt-4 align-self-end" href="/login">I already have an account</a>
+<div class="text-center pt-md-5">
+    <h1 class="text-center mb-5">Register</h1>
+    <div class="d-flex flex-row justify-content-center">
+        <div style="color: #525151" class="form-box">
+            <div class="form-grid">
+                <label for="signup-username">Username</label>
+                <input type="text"@bind="Username" id="signup-username"/>
+                <label for="signup-password">Password</label>
+                <input type="password" @bind="Password" id="signup-password"/>
+                <label for="signup-display">Display name</label>
+                <input type="text"@bind="DisplayName" id="signup-display"/>
             </div>
-        </div>
-    
-    </body>
 
+            <button @onclick="AddToClass" class="btn btn-primary mt-3 align-self-end">Register!</button>
+            <a class="mt-4 align-self-end" href="/login">I already have an account</a>
+        </div>
+    </div>
 </div>
 
 
@@ -83,9 +71,9 @@ input[type~="text"],[type~="password"]{
         NewAccount.UsernameHash = usernameHash;
         NewAccount.PasswordHash = passwordHash;
         NewAccount.DisplayName = DisplayName;
-        #pragma warning disable CS4014
+#pragma warning disable CS4014
         SendToController(NewAccount);
-        #pragma warning restore CS4014
+#pragma warning restore CS4014
     }
 
     private async Task SendToController(Account account)
@@ -95,4 +83,5 @@ input[type~="text"],[type~="password"]{
         await localStorage.SetItemAsync("loginToken", accountToken);
         string x = localStorage.GetItemAsync<string>("loginToken").Result;
     }
+
 }
