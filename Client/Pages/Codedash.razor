@@ -5,17 +5,19 @@
 @using codedash.Client.Data
 
 <pre id="codedash-problem">
-@{ var c = 0;}
-@foreach (ProblemBlock i in pbs)
+@foreach (var i in pbs.Collect(0, (idx, block) =>
 {
-    if (i.IsInput)
+    var next = block.IsInput ? idx + 1 : idx;
+    return (new {Index = idx, Block = block}, next);
+}))
+{
+    if (i.Block.IsInput)
     {
-        <input @bind="inputs[c]" size="@i.FieldLength.ToString()"/>
-        c++;
+        <input @bind="inputs[i.Index]" size="@i.Block.FieldLength.ToString()"/>
     }
     else
     {
-        <span style="white-space: pre">@i.Content</span>
+        <span style="white-space: pre">@i.Block.Content</span>
     }
 }
 </pre>
