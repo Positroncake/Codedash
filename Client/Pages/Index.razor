@@ -10,30 +10,27 @@
 
 
 @code {
-    // multiline string indentation sucks.
-    private static string OutputString = 
-@"1
-2
-3
-";
-    private static string SourceString = 
-@"for i in range():
-    print()
-";
-    private static Problem ProblemStruct = new Problem() {
-        Output = OutputString,
-        Source = SourceString,
-        Blanks = {
-            new ProblemBlank {Line = 1, Column = 16, Length = 6}, 
-            new ProblemBlank {Line = 2, Column = 12, Length = 6}, 
-        }
-    };
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        
-        JS.InvokeVoidAsync("startupIndexPage", ProblemStruct);
-    }
-
+//     // multiline string indentation sucks.
+//     private static string OutputString = 
+// @"1
+// 2
+// 3
+// ";
+//     private static string SourceString = 
+// @"for i in range():
+//     print()
+// ";
+//     private static Problem ProblemStruct = new Problem() {
+//         Output = OutputString,
+//         Source = SourceString,
+//         Blanks = {
+//             new ProblemBlank {Line = 1, Column = 16, Length = 6}, 
+//             new ProblemBlank {Line = 2, Column = 12, Length = 6}, 
+//         }
+//     };
+//
+//     protected override void OnInitialized()
+//     {
+//         
+//     }
 }
