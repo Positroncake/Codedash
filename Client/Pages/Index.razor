@@ -7,7 +7,7 @@
 
 <h1>Welcome to codedash!</h1>
 <pre id="codedash-problem-block">
-@foreach (string str in x)
+@foreach (string str in peopleList)
 {
     if (str.Equals("ayay9"))
     {
@@ -22,28 +22,11 @@
 
 
 @code {
-    private List<string> x = new() { "ayay9", "doris", "superminer" };
-    //     // multiline string indentation sucks.
-    //     private static string OutputString = 
-    // @"1
-    // 2
-    // 3
-    // ";
-    //     private static string SourceString = 
-    // @"for i in range():
-    //     print()
-    // ";
-    //     private static Problem ProblemStruct = new Problem() {
-    //         Output = OutputString,
-    //         Source = SourceString,
-    //         Blanks = {
-    //             new ProblemBlank {Line = 1, Column = 16, Length = 6}, 
-    //             new ProblemBlank {Line = 2, Column = 12, Length = 6}, 
-    //         }
-    //     };
-    //
-    //     protected override void OnInitialized()
-    //     {
-    //         
-    //     }
-}}
+    private List<string> peopleList = new() { "ayay9", "doris", "superminer" };
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+}
