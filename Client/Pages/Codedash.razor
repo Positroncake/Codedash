@@ -1,18 +1,23 @@
 @page "/Codedash"
 @inject HttpClient HttpClient
 @using codedash.Shared
+@using Microsoft.AspNetCore.Components
+@using codedash.Client.Data
+
+<h2>@title</h2>
 
 <pre id="codedash-problem">
-@foreach (var block in pbs)
+@{ int c = 0;}
+@foreach (var i in pbs)
 {
-    if (block.IsInput)
+    if (i.IsInput)
     {
-        <input @bind="inputs[index]" size="@block.FieldLength.ToString()"/>
-        if (index < inputs.Count - 1) ++index;
+        <input @bind="inputs[c]" size="@i.FieldLength"/>
+        c++;
     }
     else
     {
-        <span style="white-space: pre">@block.Content</span>
+        <span style="white-space: pre">@i.Content</span>
     }
 }
 </pre>
@@ -21,21 +26,32 @@
 
 @code {
     private static string tempSequence = "for i in range(6):\u000a    print(\u001f0\u001f-1\u001e\"ay\"\u001f1\u001f6\u001e, end='')\u000aprint('9')\u000a\u000aprint('ay' * 64 + '9')\u001f0\u001f-1";
-
-    private int index;
-    private List<ProblemBlock> pbs = ProblemBlock.ParseProblemString(tempSequence);
-    private List<string> inputs = new();
     
-    protected override void OnInitialized()
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "id")]
+    public string? id { get; set; }
+
+    private string title = "";
+    private List<ProblemBlock> pbs = new();
+    private List<string> inputs = new();
+
+    protected override async Task OnInitializedAsync()
     {
-        foreach (ProblemBlock chunk in pbs.Where(chunk => chunk.IsInput)) inputs.Add(string.Empty);
-        Console.WriteLine("DEBUG// Done");
+        HttpResponseMessage response = await HttpClient.GetAsync("ProblemApi/Get/27aad10f-f8d2-4a4a-ab84-351eec0244e0");
+        Problem p = (await response.Content.ReadFromJsonAsync<Problem>())!;
+        Console.WriteLine();
+        
+        title = p.Title!;
+        pbs = ProblemBlock.ParseProblemString(p.Chunks!);
+        // Resize input list to match
+        inputs.Resize(pbs.Aggregate(0, (curr, next) => next.IsInput? curr + 1 : curr), "");
+        
     }
 
     private void Submit()
     {
         foreach (string input in inputs) Console.WriteLine($"Input: {input}.");
-        SendToController();
+        SendToController().Wait();
     }
 
     private async Task SendToController()
