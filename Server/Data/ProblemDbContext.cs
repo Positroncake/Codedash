@@ -30,7 +30,7 @@ public class ProblemDbContext : DbContext
     {
         return new List<Problem>
         {
-            new() { Id = Guid.NewGuid(), Chunks = $"\x0002ayay\x001f0\x001f1\x001f-1\x001e\x001f9\x001f1\x001f1\x001f2\x0003"}
+            new() { Id = Guid.NewGuid(), Chunks = "\x0002print(\"Hi\")\x001f0\x001f-1\x000aprint(\x001f0\x001f-1\x001eHello, World!\x001f1\x001f13\x001e)\x001f0\x001f-1\x0003"}
         };
     }
 

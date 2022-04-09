@@ -6,31 +6,44 @@
 <PageTitle>Home</PageTitle>
 
 <h1>Welcome to codedash!</h1>
-<pre id="codedash-problem-block"></pre>
+<pre id="codedash-problem-block">
+@foreach (string str in x)
+{
+    if (str.Equals("ayay9"))
+    {
+        <p style="color: blue">@str</p>
+    }
+    else
+    {
+        <p>@str</p>
+    }
+}
+</pre>
 
 
 @code {
-//     // multiline string indentation sucks.
-//     private static string OutputString = 
-// @"1
-// 2
-// 3
-// ";
-//     private static string SourceString = 
-// @"for i in range():
-//     print()
-// ";
-//     private static Problem ProblemStruct = new Problem() {
-//         Output = OutputString,
-//         Source = SourceString,
-//         Blanks = {
-//             new ProblemBlank {Line = 1, Column = 16, Length = 6}, 
-//             new ProblemBlank {Line = 2, Column = 12, Length = 6}, 
-//         }
-//     };
-//
-//     protected override void OnInitialized()
-//     {
-//         
-//     }
-}
+    private List<string> x = new() { "ayay9", "doris", "superminer" };
+    //     // multiline string indentation sucks.
+    //     private static string OutputString = 
+    // @"1
+    // 2
+    // 3
+    // ";
+    //     private static string SourceString = 
+    // @"for i in range():
+    //     print()
+    // ";
+    //     private static Problem ProblemStruct = new Problem() {
+    //         Output = OutputString,
+    //         Source = SourceString,
+    //         Blanks = {
+    //             new ProblemBlank {Line = 1, Column = 16, Length = 6}, 
+    //             new ProblemBlank {Line = 2, Column = 12, Length = 6}, 
+    //         }
+    //     };
+    //
+    //     protected override void OnInitialized()
+    //     {
+    //         
+    //     }
+}}
