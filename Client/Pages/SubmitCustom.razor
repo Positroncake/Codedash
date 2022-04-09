@@ -1,5 +1,6 @@
 @page "/SubmitCustom"
 @using System.Text
+@using System.Text.RegularExpressions
 
 <textarea @bind="_input"></textarea>
 <p>@_output</p>
@@ -14,39 +15,44 @@
         string text = _input;
         text = text.Replace(@"/$[", "\u0011");
         text = text.Replace(@"]$\", "\u0011");
-        _input = text;
         string[] str = text.Split('\u0011');
         foreach (string s in str) Console.WriteLine(s);
         Console.WriteLine(str.Length);
 
-        var stringBuilder = new StringBuilder();
+        var data = new StringBuilder();
         for (var i = 0; i < str.Length; ++i)
         {
             if (i % 2 == 0)
             {
-                stringBuilder.Append(str[i]);
-                stringBuilder.Append("\u001f");
-                stringBuilder.Append("0");
-                stringBuilder.Append("\u001f");
-                stringBuilder.Append("-1");
-                stringBuilder.Append("\u001e");
+                data.Append(str[i]);
+                data.Append("\u001f");
+                data.Append("0");
+                data.Append("\u001f");
+                data.Append("-1");
+                data.Append("\u001e");
             }
             else
             {
-                stringBuilder.Append(str[i]);
-                stringBuilder.Append("\u001f");
-                stringBuilder.Append("1");
-                stringBuilder.Append("\u001f");
-                stringBuilder.Append(str[i].Length + 2);
-                stringBuilder.Append("\u001e");
+                data.Append(str[i]);
+                data.Append("\u001f");
+                data.Append("1");
+                data.Append("\u001f");
+                data.Append(str[i].Length + 2);
+                data.Append("\u001e");
             }
         }
+        
+        // remove last char (should always be \u001E)
+        data.Remove(data.Length - 1, 1);
+        data.Replace("\n", "\\n").Replace("\"", "\\\"");
 
-        byte[] bytes = Encoding.ASCII.GetBytes(stringBuilder.ToString());
-        var hexdump = new StringBuilder();
-        foreach (byte b in bytes) hexdump.Append(b.ToString("X2").ToLowerInvariant() + "-");
+        string res = Regex.Replace(data.ToString(), "[\u0000-\u001F\u007F-\uFFFF]", match =>
+        {
+            int codepoint = (int) match.Value[0];
+            return $"\\u{codepoint:X4}";
+        });
 
-        _output = hexdump.ToString();
-        if (_output.EndsWith("-1e-")) _output = _output.Remove(_output.Length - 4);
+        _output = $"\"{res}\"";
     }
+
 }
