@@ -7,15 +7,17 @@
 <button @onclick="Parse">Parse</button>
 
 <pre id="codedash-problem">
-@foreach (var block in pbs)
+@{ var c = 0;}
+@foreach (ProblemBlock i in pbs)
 {
-    if (block.IsInput)
+    if (i.IsInput)
     {
-        <input size="@block.FieldLength.ToString()"/>
+        <input @bind="inputs[c]" size="@i.FieldLength.ToString()"/>
+        c++;
     }
     else
     {
-        <span style="white-space: pre">@block.Content</span>
+        <span style="white-space: pre">@i.Content</span>
     }
 }
 </pre>
@@ -24,9 +26,9 @@
 
 @code {
     [Parameter] public string? hexdump { get; set; }
-    private int index;
     private List<ProblemBlock> pbs = new();
     private List<string> inputs = new();
+    private int index;
 
     private void Parse()
     {
