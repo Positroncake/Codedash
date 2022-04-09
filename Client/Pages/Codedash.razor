@@ -67,9 +67,8 @@ input[type~="text"], textarea{
     private async void Submit()
     {
         HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"ProblemApi/Verify/{id}", inputs);
-        Console.WriteLine(await response.Content.ReadAsStringAsync());
-    // List<int> results = response.Content.ReadFromJsonAsync<List<int>>().Result!;
-        // foreach (int x in results) Console.WriteLine(x);
+        List<int> results = response.Content.ReadFromJsonAsync<List<int>>().Result!;
+        foreach (int x in results) Console.WriteLine(x);
     }
 
 }
