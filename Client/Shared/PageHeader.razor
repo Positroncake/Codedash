@@ -1,5 +1,6 @@
 ﻿@using Blazored.LocalStorage
 @inject ILocalStorageService localStorage
+@inject NavigationManager NavigationManager
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark w-100 px-2">
     <div class="container-fluid justify-content-start">
@@ -44,6 +45,11 @@
     private static bool _displayRegistrationAndLogin = false;
 
     protected override async Task OnInitializedAsync()
+    {
+        NavigationManager.LocationChanged += (_, _) => CheckState();
+    }
+    
+    private async void CheckState()
     {
         _displayRegistrationAndLogin = !await localStorage.ContainKeyAsync("loginToken");
         await Task.Delay(0);

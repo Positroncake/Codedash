@@ -4,13 +4,23 @@
 @using System.Text.RegularExpressions
 @using codedash.Shared
 
-<textarea @bind="_input"></textarea>
-<p>@_output</p>
-<button @onclick="Parse">Parse</button>
-<p>Name of custom codedash</p>
-<input @bind="_title"/>
-<p>Difficulty level 0-5 </p>
-<input @bind="@_difficulty"/>
+<div class="center-content">
+    <div style="display: inline-block">
+        <p>Code and input fields</p>
+        <textarea @bind="_input"></textarea>
+    </div>
+    <div style="display: inline-block">
+        <p>Expected output</p>
+        <textarea @bind="_output"></textarea>
+    </div>
+    <div style="display: inline-block">
+        <p>Name of custom codedash</p>
+        <input @bind="_title"/>
+        <p>Difficulty level 0-5 </p>
+        <input @bind="@_difficulty"/>
+    </div>
+</div>
+<button @onclick="Parse">Submit</button>
 
 @code {
     private string _input = "";
@@ -21,16 +31,16 @@
     private void Parse()
     {
         string text = _input;
+        var firstIsInputField = false;
         text = text.Replace(@"/$[", "\u0011");
         text = text.Replace(@"]$\", "\u0011");
         string[] str = text.Split('\u0011');
-        foreach (string s in str) Console.WriteLine(s);
-        Console.WriteLine(str.Length);
 
         var data = new StringBuilder();
+        
         for (var i = 0; i < str.Length; ++i)
         {
-            if (i % 2 == 0)
+            if (firstIsInputField && i % 2 == 0 || !firstIsInputField && i % 2 != 0)
             {
                 data.Append(str[i]);
                 data.Append("\u001f");
@@ -39,7 +49,7 @@
                 data.Append("-1");
                 data.Append("\u001e");
             }
-            else
+            else if (firstIsInputField && i % 2 != 0 || !firstIsInputField && i % 2 == 0)
             {
                 data.Append(str[i]);
                 data.Append("\u001f");
@@ -49,11 +59,11 @@
                 data.Append("\u001e");
             }
         }
-        
-        // remove last char (should always be \u001E)
+
+    // remove last char (should always be \u001E)
         data.Remove(data.Length - 1, 1);
-        _output = data.ToString();
-        SendToController(_output, _difficulty);
+        var result = data.ToString();
+        SendToController(result, _difficulty);
     }
 
     private async Task SendToController(string output, string difficulty)
@@ -62,8 +72,10 @@
         {
             Id = Guid.NewGuid().ToString().ToLowerInvariant(),
             Chunks = output,
+            Output = _output,
             Title = _title,
-            Difficulty = int.Parse(difficulty)
+            Difficulty = int.Parse(difficulty),
+            IsUserMade = true
         };
         HttpResponseMessage response = await HttpClient.PostAsJsonAsync("ProblemApi/Submit", problem);
     }
