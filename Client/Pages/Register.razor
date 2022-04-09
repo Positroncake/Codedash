@@ -19,33 +19,37 @@ input[type~="text"],[type~="password"]{
       background-image: linear-gradient(to right, #ddd6f3, #faaca8);
     }
 </style>
-<body>
-    <p>&nbsp</p>
-    <h1 class="text-center">Register</h1>
-    <p>&nbsp</p>
-    <div class="text-center">
-        <div style = "color: #525151" class="form-box">
-            <div class="form-grid">
-                <div class="text-start">
-                    <label for="signup-username">Username</label>
-                </div>
-                <input type="text"@bind="Username" id="signup-username" />
-                <div class="text-start">
-                    <label for="signup-password">Password</label>
-                </div>
-                <input type="password" @bind="Password" id="signup-password" />
-                <div class="text-start">
-                    <label for="signup-display">Display name</label>
-                </div>
-                <input type="text"@bind="DisplayName" id="signup-display" />
-            </div>
-              
-            <button @onclick="AddToClass" class="btn btn-primary mt-3 align-self-end">Register!</button>
-            <a class="mt-4 align-self-end" href="/login">I already have an account</a>
-        </div>
-    </div>
 
-</body>
+<div align="center">
+    <body align="center">
+        <p>&nbsp</p>
+        <h1 class="text-center">Register</h1>
+        <p>&nbsp</p>
+        <div class="center">
+            <div style = "color: #525151" class="form-box">
+                <div class="form-grid">
+                    <div class="text-start">
+                        <label for="signup-username">Username</label>
+                    </div>
+                    <input type="text"@bind="Username" id="signup-username" />
+                    <div class="text-start">
+                        <label for="signup-password">Password</label>
+                    </div>
+                    <input type="password" @bind="Password" id="signup-password" />
+                    <div class="text-start">
+                        <label for="signup-display">Display name</label>
+                    </div>
+                    <input type="text"@bind="DisplayName" id="signup-display" />
+                </div>
+                  
+                <button @onclick="AddToClass" class="btn btn-primary mt-3 align-self-end">Register!</button>
+                <a class="mt-4 align-self-end" href="/login">I already have an account</a>
+            </div>
+        </div>
+    
+    </body>
+
+</div>
 
 
 @code {
