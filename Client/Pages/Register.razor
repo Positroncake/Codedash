@@ -55,8 +55,8 @@
             foreach (byte x in hashedUsernameBytes) usernameString.Append(x.ToString("X2"));
             var passwordString = new StringBuilder(128);
             foreach (byte x in hashedPasswordBytes) passwordString.Append(x.ToString("X2"));
-            usernameHash = usernameString.ToString();
-            passwordHash = passwordString.ToString();
+            usernameHash = usernameString.ToString().ToLowerInvariant();
+            passwordHash = passwordString.ToString().ToLowerInvariant();
         }
 
         NewAccount.Id = Guid.NewGuid();

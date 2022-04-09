@@ -11,7 +11,7 @@ using codedash.Shared;
 namespace codedash.Server.Migrations.ProblemDb
 {
     [DbContext(typeof(ProblemDbContext))]
-    [Migration("20220409033617_Initial database creation")]
+    [Migration("20220409063218_Initial database creation")]
     partial class Initialdatabasecreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,6 +28,12 @@ namespace codedash.Server.Migrations.ProblemDb
                     b.Property<string>("Chunks")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Difficulty")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.ToTable("Problem");
@@ -35,8 +41,17 @@ namespace codedash.Server.Migrations.ProblemDb
                     b.HasData(
                         new
                         {
-                            Id = new Guid("709d3b5b-a640-4ed8-a58a-e7330f3ce575"),
-                            Chunks = "print(\"Hi\")\nprint(0-1\"Hello, World!\"113)0-1"
+                            Id = new Guid("49fadfb5-e6a6-4e96-9f63-81eabe41efc3"),
+                            Chunks = "print(\"Hi\")\nprint(0-1\"Hello, World!\"113)0-1",
+                            Difficulty = 0,
+                            Title = "Sample 0"
+                        },
+                        new
+                        {
+                            Id = new Guid("b32f0e8d-4a60-4b0b-a575-76f767dd7687"),
+                            Chunks = "for i in range(6):\n    print(0-1\"ay\"16, end='')\nprint('9')\n\nprint('ay' * 64 + '9')0-1",
+                            Difficulty = 0,
+                            Title = "Sample 1"
                         });
                 });
 #pragma warning restore 612, 618

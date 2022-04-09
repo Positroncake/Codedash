@@ -18,6 +18,11 @@ builder.Services.AddDbContext<AccountDbContext>(options =>
     options.UseSqlite("Data source = Accounts.db");
 });
 builder.Services.AddScoped<AccountServices>();
+builder.Services.AddDbContext<TokenDbContext>(options =>
+{
+    options.UseSqlite("Data source = Token.db");
+});
+builder.Services.AddScoped<TokenServices>();
 
 WebApplication app = builder.Build();
 

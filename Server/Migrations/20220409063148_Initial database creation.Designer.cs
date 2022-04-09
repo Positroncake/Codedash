@@ -11,7 +11,7 @@ using codedash.Shared;
 namespace codedash.Server.Migrations
 {
     [DbContext(typeof(AccountDbContext))]
-    [Migration("20220409023933_Initial database creation")]
+    [Migration("20220409063148_Initial database creation")]
     partial class Initialdatabasecreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,11 +25,26 @@ namespace codedash.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<decimal>("AverageTime")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("DisplayName")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("RegistrationDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Solved")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Submissions")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SubmissionsNum")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("UsernameHash")
                         .HasColumnType("TEXT");
@@ -41,16 +56,26 @@ namespace codedash.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("99cc2291-71cf-4015-9463-35eefa17fc5d"),
+                            Id = new Guid("55d8d824-6e78-4400-bc8b-ef15e6f30a6c"),
+                            AverageTime = 0m,
                             DisplayName = "Generic PCI Device",
                             PasswordHash = "c2015c71296c09ac3279d2d27a35b0fd58bb39f5b184a160f52e39c495056494f2eae2c84bc90f24013580bf9e34c318c98c27a85d0b88e63f4ef4c695d6699b",
+                            RegistrationDate = new DateTime(2022, 4, 9, 6, 31, 48, 533, DateTimeKind.Utc).AddTicks(3691),
+                            Solved = 0,
+                            Submissions = "",
+                            SubmissionsNum = 0,
                             UsernameHash = "3a2bdfc8841a6b57e71e90983ccd34cd7c8950d2d59506c9df7565978d1891ab11c7c2fc8948d1109eb098e8d016e2d4999a404d0e15ae0ce5637b0482446c0e"
                         },
                         new
                         {
-                            Id = new Guid("80d7c080-c742-4a54-a076-31099824e09b"),
+                            Id = new Guid("d83b70dc-adb4-4de3-b788-0494332db85a"),
+                            AverageTime = 0m,
                             DisplayName = "Generic electron",
                             PasswordHash = "d2015c71296c09ac3279d2d27a35b0fd58bb39f5b184a160f52e39c495056494f2eae2c84bc90f24013580bf9e34c318c98c27a85d0b88e63f4ef4c695d6699b",
+                            RegistrationDate = new DateTime(2022, 4, 9, 6, 31, 48, 533, DateTimeKind.Utc).AddTicks(3715),
+                            Solved = 0,
+                            Submissions = "",
+                            SubmissionsNum = 0,
                             UsernameHash = "4a2bdfc8841a6b57e71e90983ccd34cd7c8950d2d59506c9df7565978d1891ab11c7c2fc8948d1109eb098e8d016e2d4999a404d0e15ae0ce5637b0482446c0e"
                         });
                 });
