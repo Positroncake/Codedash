@@ -1,14 +1,22 @@
 @page "/SubmitCustom"
+@inject HttpClient HttpClient
 @using System.Text
 @using System.Text.RegularExpressions
+@using codedash.Shared
 
 <textarea @bind="_input"></textarea>
 <p>@_output</p>
 <button @onclick="Parse">Parse</button>
+<p>Name of custom codedash</p>
+<input @bind="_title"/>
+<p>Difficulty level 0-5 </p>
+<input @bind="@_difficulty"/>
 
 @code {
     private string _input = "";
     private string _output = "";
+    private string _title = "";
+    private string _difficulty = "";
 
     private void Parse()
     {
@@ -44,15 +52,19 @@
         
         // remove last char (should always be \u001E)
         data.Remove(data.Length - 1, 1);
-        data.Replace("\n", "\\n").Replace("\"", "\\\"");
-
-        string res = Regex.Replace(data.ToString(), "[\u0000-\u001F\u007F-\uFFFF]", match =>
-        {
-            int codepoint = (int) match.Value[0];
-            return $"\\u{codepoint:X4}";
-        });
-
-        _output = $"\"{res}\"";
+        _output = data.ToString();
+        SendToController(_output, _difficulty);
     }
 
+    private async Task SendToController(string output, string difficulty)
+    {
+        var problem = new Problem
+        {
+            Id = Guid.NewGuid().ToString().ToLowerInvariant(),
+            Chunks = output,
+            Title = _title,
+            Difficulty = int.Parse(difficulty)
+        };
+        HttpResponseMessage response = await HttpClient.PostAsJsonAsync("ProblemApi/Submit", problem);
+    }
 }

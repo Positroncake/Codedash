@@ -62,6 +62,20 @@ public class ProblemController : ControllerBase
         return Ok(matches);
     }
 
+    [HttpPost("Submit")]
+    public ActionResult AddCustomSubmission(Problem problem)
+    {
+        AddToDb(problem);
+        return Ok(problem.Id);
+    }
+
+    [NonAction]
+    public async void AddToDb(Problem problem)
+    {
+        _context.Add(problem);
+        await _context.SaveChangesAsync();
+    }
+
     [NonAction]
     private string TokenMatch(List<string> args)
     {

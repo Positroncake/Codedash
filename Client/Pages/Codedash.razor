@@ -1,10 +1,8 @@
-@page "/Codedash/{hexdump}"
+@page "/Codedash"
 @inject HttpClient HttpClient
 @using codedash.Shared
 @using Microsoft.AspNetCore.Components
-
-<span style="white-space: pre">Input sequence:</span>
-<button @onclick="Parse">Parse</button>
+@using codedash.Client.Data
 
 <pre id="codedash-problem">
 @{ var c = 0;}
@@ -25,11 +23,7 @@
 <button @onclick="Submit">Submit</button>
 
 @code {
-    [Parameter] public string? hexdump { get; set; }
-    private static string tempSequence = "for i in range(6):\u000a    print(\u001f0\u001f-1\u001e\"ay\"\u001f1\u001f6\u001e, end='')\u000aprint('9')\u000a\u000aprint('ay' * 64 + '9')\u001f0\u001f-1";
-    
     // "ay" problem: 27aad10f-f8d2-4a4a-ab84-351eec0244e0
-    
     [Parameter]
     [SupplyParameterFromQuery(Name = "id")]
     public string? id { get; set; }
