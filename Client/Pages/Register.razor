@@ -26,7 +26,7 @@
             <input @bind="DisplayName" id="signup-display" />
         </div>
           
-        <button @onclick="AddToClass" class="btn btn-primary mt-3 align-self-end" id="signup-button">Register!</button>
+        <button @onclick="AddToClass" class="btn btn-primary mt-3 align-self-end">Register!</button>
         <a class="mt-4 align-self-end" href="/login">I already have an account</a>
     </div>
 </div>
@@ -59,7 +59,7 @@
             passwordHash = passwordString.ToString().ToLowerInvariant();
         }
 
-        NewAccount.Id = Guid.NewGuid();
+        NewAccount.Id = Guid.NewGuid().ToString().ToLowerInvariant();
         NewAccount.UsernameHash = usernameHash;
         NewAccount.PasswordHash = passwordHash;
         NewAccount.DisplayName = DisplayName;

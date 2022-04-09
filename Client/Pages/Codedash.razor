@@ -1,13 +1,14 @@
 @page "/Codedash"
+@inject HttpClient HttpClient
 @using codedash.Shared
-@using System.Text.Json
 
 <pre id="codedash-problem">
 @foreach (var block in pbs)
 {
     if (block.IsInput)
     {
-        <input size="@block.FieldLength.ToString()"/>
+        <input @bind="inputs[index]" size="@block.FieldLength.ToString()"/>
+        if (index < inputs.Count - 1) ++index;
     }
     else
     {
@@ -16,8 +17,32 @@
 }
 </pre>
 
+<button @onclick="Submit">Submit</button>
+
 @code {
-    private static string tempSequence = "for i in range(6):\n    print(\u001F0\u001F-1\u001E\"ay\"\u001F1\u001F6\u001E, end='')\nprint('9')\n\nprint('ay' * 64 + '9')\u001F0\u001F-1";
-    
+    private static string tempSequence = "for i in range(6):\u000a    print(\u001f0\u001f-1\u001e\"ay\"\u001f1\u001f6\u001e, end='')\u000aprint('9')\u000a\u000aprint('ay' * 64 + '9')\u001f0\u001f-1";
+
+    private int index;
     private List<ProblemBlock> pbs = ProblemBlock.ParseProblemString(tempSequence);
+    private List<string> inputs = new();
+    
+    protected override void OnInitialized()
+    {
+        foreach (ProblemBlock chunk in pbs.Where(chunk => chunk.IsInput)) inputs.Add(string.Empty);
+        Console.WriteLine("DEBUG// Done");
+    }
+
+    private void Submit()
+    {
+        foreach (string input in inputs) Console.WriteLine($"Input: {input}.");
+        SendToController();
+    }
+
+    private async Task SendToController()
+    {
+        HttpResponseMessage response = await HttpClient.PostAsJsonAsync("ProblemApi/Verify/27aad10f-f8d2-4a4a-ab84-351eec0244e0", inputs);
+        List<int> results = response.Content.ReadFromJsonAsync<List<int>>().Result!;
+        foreach (int x in results) Console.WriteLine(x);
+    }
+
 }

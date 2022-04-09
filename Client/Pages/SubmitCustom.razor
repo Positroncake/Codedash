@@ -1,0 +1,27 @@
+@page "/SubmitCustom"
+
+<textarea @bind="_input"></textarea>
+<button @onclick="Parse">Parse</button>
+
+@code {
+    private string _input = "";
+    private List<Chunk> _list = new();
+
+    class Chunk
+    {
+        string Content { get; set; }
+        bool IsInput { get; set; }
+        int InputLength { get; set; }
+    }
+
+    private void Parse()
+    {
+        _input = _input.Replace(@"/$[", "\u0011");
+        _input = _input.Replace(@"]$\", "\u0011");
+        string[] str = _input.Split('\u0011');
+        foreach (string s in str)
+        {
+            Console.WriteLine(str);
+        }
+    }
+}

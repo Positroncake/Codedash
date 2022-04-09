@@ -11,7 +11,7 @@ using codedash.Shared;
 namespace codedash.Server.Migrations
 {
     [DbContext(typeof(AccountDbContext))]
-    [Migration("20220409063148_Initial database creation")]
+    [Migration("20220409085342_Initial database creation")]
     partial class Initialdatabasecreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,8 +21,7 @@ namespace codedash.Server.Migrations
 
             modelBuilder.Entity("codedash.Shared.Account", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("AverageTime")
@@ -56,11 +55,11 @@ namespace codedash.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("55d8d824-6e78-4400-bc8b-ef15e6f30a6c"),
+                            Id = "7b52cbc9-3343-437f-981d-70cc89a71ce5",
                             AverageTime = 0m,
                             DisplayName = "Generic PCI Device",
                             PasswordHash = "c2015c71296c09ac3279d2d27a35b0fd58bb39f5b184a160f52e39c495056494f2eae2c84bc90f24013580bf9e34c318c98c27a85d0b88e63f4ef4c695d6699b",
-                            RegistrationDate = new DateTime(2022, 4, 9, 6, 31, 48, 533, DateTimeKind.Utc).AddTicks(3691),
+                            RegistrationDate = new DateTime(2022, 4, 9, 8, 53, 42, 319, DateTimeKind.Utc).AddTicks(3597),
                             Solved = 0,
                             Submissions = "",
                             SubmissionsNum = 0,
@@ -68,11 +67,11 @@ namespace codedash.Server.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d83b70dc-adb4-4de3-b788-0494332db85a"),
+                            Id = "2023dcab-35c2-4975-b08c-83a67ff51d75",
                             AverageTime = 0m,
                             DisplayName = "Generic electron",
                             PasswordHash = "d2015c71296c09ac3279d2d27a35b0fd58bb39f5b184a160f52e39c495056494f2eae2c84bc90f24013580bf9e34c318c98c27a85d0b88e63f4ef4c695d6699b",
-                            RegistrationDate = new DateTime(2022, 4, 9, 6, 31, 48, 533, DateTimeKind.Utc).AddTicks(3715),
+                            RegistrationDate = new DateTime(2022, 4, 9, 8, 53, 42, 319, DateTimeKind.Utc).AddTicks(3620),
                             Solved = 0,
                             Submissions = "",
                             SubmissionsNum = 0,
