@@ -16,38 +16,45 @@ input[type~="text"],[type~="password"]{
   border-bottom: 3px solid black;
 }
 </style>
-
-<p>&nbsp</p>
-<div class="text-center">
-    <h1>Login</h1>
-</div>
-<p>&nbsp</p>
-<div class="text-center">
-    <div style = "color: #525151" class="form-box">
-        <div class="form-grid">
-            <div class="text-start" style="display: inline">
-                <label for="signup-username">Username:</label>
-            </div>
-            
-            <div class="text-end">
-                 <input type="text"@bind="Username" id="signup-username"/>
-            </div>
-            <dr></dr><dr></dr><dr></dr>
-            <div class="text-start">
-                <label for="signup-password">Password:</label>
-            </div>
-
-            <div class="text-end" style="display: inline">
-                <input type="password" @bind="Password" id="signup-password"/>
-            </div>
-
-        </div>
-        <button @onclick="HashLoginDetails" class="btn btn-primary mt-3 align-self-end" id="signup-button">Login!</button>
-        
-        <a class="mt-4 align-self-end" href="/register">I don't have an account</a> 
-        
+<style>
+    body {
+      background-image: linear-gradient(to right, #ddd6f3, #faaca8);
+    }
+</style>
+<body>
+    <p>&nbsp</p>
+    <div class="text-center">
+        <h1>Login</h1>
     </div>
-</div>
+    <p>&nbsp</p>
+    <div class="text-center">
+        <div style = "color: #525151" class="form-box">
+            <div class="form-grid">
+                <div class="text-start" style="display: inline">
+                    <label for="signup-username">Username:</label>
+                </div>
+                
+                <div class="text-end">
+                     <input type="text"@bind="Username" id="signup-username"/>
+                </div>
+                <dr></dr><dr></dr><dr></dr>
+                <div class="text-start">
+                    <label for="signup-password">Password:</label>
+                </div>
+    
+                <div class="text-end" style="display: inline">
+                    <input type="password" @bind="Password" id="signup-password"/>
+                </div>
+    
+            </div>
+            <button @onclick="HashLoginDetails" class="btn btn-primary mt-3 align-self-end" id="signup-button">Login!</button>
+            
+            <a class="mt-4 align-self-end" href="/register">I don't have an account</a> 
+            
+        </div>
+    </div>
+
+</body>
 @code {
     // ReSharper disable InconsistentNaming
     private string? Username, Password;
