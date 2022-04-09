@@ -2,25 +2,61 @@
 @inject HttpClient HttpClient
 @inject IJSRuntime JS
 @using codedash.Shared
-
+<style>
+    body {
+      background-image: linear-gradient(to right, #ddd6f3, #faaca8);
+    }
+</style>
 <PageTitle>Home</PageTitle>
-
-<h1>Welcome to codedash!</h1>
-<p>
-    <!--This is what the lorem ipsum actually translates to: https://www.lipsum.com/-->
-    This is placeholder text. This sentence is also placeholder text. 
-    I'm lazy, so I'll just repeat these sentences.
-    This is placeholder text. This sentence is also placeholder text. 
-    I'm lazy, so I'll just repeat these sentences.
-    This is placeholder text. This sentence is also placeholder text. 
-    I'm lazy, so I'll just repeat these sentences.
-    This is placeholder text. This sentence is also placeholder text. 
-    I'm lazy, so I'll just repeat these sentences.
-    This is placeholder text. This sentence is also placeholder text. 
-    I'm lazy, so I'll just repeat these sentences.
-    This is placeholder text. This sentence is also placeholder text. 
-    I'm lazy, so I'll just repeat these sentences.
-</p>
+<body>
+    <br/>
+    <h1>Welcome to codedash!</h1>
+    <br/>
+    <h3>
+        <strong>What is codedash?</strong>
+    </h3>
+    <p>
+        Codedash is an interactive and engaging game where you can test your programming skills, learn new algorithms and coding design patterns, and most importantly, have FUN!
+    </p>
+    <br/>
+    <h3>
+        <strong>How to Play?</strong>
+    </h3>
+    <p>
+        It’s as simple as 1, 2, 3! 
+        
+        Fill in the missing code in the given code so that it matches the given output when run!
+        
+        The game will output your code underlined in red or green for correct and incorrect code respectively!
+        
+        Compete with other players! Make an account and try to complete each level in the least time!
+    </p>
+    <br/>
+    <h3>
+        <strong>Account</strong>
+    </h3>
+    <p>
+        By making an account, you have access to:
+    </p>
+    <p>
+        - Submitting and Voting: Use the forum, submit problems, and vote for problems to be implemented into the game!
+    </p>
+    <p>
+        - Account Statistics
+    </p>
+    <p>
+        - View your number of codedash levels solved
+    </p>
+    <p>
+        - Your average time spent per level
+    </p>
+    <p>
+        - Number of submitted codedashes
+    </p>
+    <p>
+        - Your username!
+    </p>
+</body>
 
 @code {
 
