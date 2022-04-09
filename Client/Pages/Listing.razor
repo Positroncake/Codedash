@@ -9,25 +9,61 @@
 </style>
 
 <div class="center-content p-3" style="background-color: white; min-height: 70vh">
-    <h3>Listing</h3>
+    <h3 class="mb-4">Listing</h3>
     @if (Problems.Count > 0)
     {
-        @foreach (Problem problem in Problems)
-        {
-            <p>Title: @problem.Title | Difficulty (/10): @problem.Difficulty.ToString() | Made by users: @problem.IsUserMade.ToString()</p>
-        }
+        <table class="table table-bordered table-striped table-sm">
+            <thead class="table-dark">
+            <tr>
+                <th>Title</th>
+                <th>Difficulty</th>
+                <th>User-submitted?</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (Problem problem in Problems)
+            {
+                <tr>
+                    <td>@problem.Title</td>
+                    <td>@problem.Difficulty.ToString()</td>
+                    <td>@problem.IsUserMade.ToString()</td>
+                </tr>
+            }
+            </tbody>
+
+        </table>
+    }
+    else
+    {
+        <div class="@(IsError? "d-none" : "")">
+            Loading problems...
+        </div>
+        <div class="@(IsError? "" : "d-none")">
+            <p>It looks like our server is broken!</p>
+            <p>
+                Please contact <a href="mailto:roncake@protonmail.com">roncake@protonmail.com</a> for help.
+            </p>
+        </div>
     }
 
     @code {
         List<Problem>? Problems = new();
+        bool IsError = false;
 
         protected override async Task OnInitializedAsync()
         {
-            var result = await HttpClient.GetFromJsonAsync<List<Problem>>("/ProblemApi/List");
+            List<Problem>? result = await HttpClient.GetFromJsonAsync<List<Problem>>("/ProblemApi/List");
+            if (result is null)
+            {
+                IsError = true;
+                await Task.Delay(0);
+                StateHasChanged();
+            }
             Problems = result;
+            await Task.Delay(0);
+            StateHasChanged();
         }
 
     }
+
 </div>
-
-
