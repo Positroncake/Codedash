@@ -57,8 +57,16 @@ public class ProblemController : ControllerBase
             .SelectMany((pack) => new[] { pack.Val, pack.Block }).ToList();
         
         string matches = TokenMatch(args);
+
+        var res = matches.Split(new[] {"\r\n", "\n", "\r"}, StringSplitOptions.RemoveEmptyEntries)
+            .Select((str, idx) => int.Parse(str)).ToList();
         
-        return Ok(matches);
+        Console.Write("Python list: ");
+        foreach (var i in res)
+            Console.Write($"{i} ");
+        Console.WriteLine();
+        
+        return Ok(res);
     }
 
     [HttpPost("Submit")]
