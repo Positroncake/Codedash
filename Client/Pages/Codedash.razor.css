@@ -1,4 +1,17 @@
-#codedash-problem {
+div.center-content {
+    text-align: center;
+    width: min(720px, 100%);
+    margin-left: auto;
+    margin-right: auto;
+    
+    padding: 0.75em;
+    
+    min-height: 80vh;
+    
+    background-color: white;
+}
+
+pre {
     padding: 5px;
     border-radius: 5px;
     
@@ -20,8 +33,4 @@
 
 #codedash-problem input.blank-wrong {
     border-bottom-color: #A00 !important;
-}
-
-div.center-content {
-    text-align: center;
 }

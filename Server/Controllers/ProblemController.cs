@@ -1,6 +1,8 @@
 using codedash.Shared;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.IO;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace codedash.Server.Controllers;
@@ -68,21 +70,7 @@ public class ProblemController : ControllerBase
         
         return Ok(res);
     }
-
-    [HttpPost("Submit")]
-    public ActionResult AddCustomSubmission(Problem problem)
-    {
-        AddToDb(problem);
-        return Ok(problem.Id);
-    }
-
-    [NonAction]
-    public async void AddToDb(Problem problem)
-    {
-        _context.Add(problem);
-        await _context.SaveChangesAsync();
-    }
-
+    
     [NonAction]
     private string TokenMatch(List<string> args)
     {
@@ -107,5 +95,33 @@ public class ProblemController : ControllerBase
         process.WaitForExit();
         return output;
         // return Regex.Split(output, "\r?\n").Select((val, idx) => int.Parse(val)).ToList();
+    }
+    
+    [HttpPost("Submit")]
+    public ActionResult AddCustomSubmission(Problem problem)
+    {
+        AddToDb(problem);
+        return Ok(problem.Id);
+    }
+
+    [NonAction]
+    public async void AddToDb(Problem problem)
+    {
+        _context.Add(problem);
+        await _context.SaveChangesAsync();
+    }
+
+    [HttpGet("Campaign/{level}")]
+    public ActionResult GetCampaignLevel(int level)
+    {
+        string jsonText = System.IO.File.ReadAllText("Files/campaign-levels.json");
+        var levels = JsonSerializer.Deserialize<List<string>>(jsonText)!;
+
+        if (level >= levels.Count)
+        {
+            return BadRequest("Level out of bounds");
+        }
+
+        return Ok(levels[level]);
     }
 };
