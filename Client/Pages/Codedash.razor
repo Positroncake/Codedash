@@ -4,28 +4,45 @@
 @using Microsoft.AspNetCore.Components
 @using codedash.Client.Data
 
-<pre id="codedash-problem">
-@foreach (var i in pbs.Collect(0, (idx, block) =>
-{
-    var next = block.IsInput ? idx + 1 : idx;
-    return (new {Index = idx, Block = block}, next);
-}))
-{
-    if (i.Block.IsInput)
-    {
-        <input @bind="inputs[i.Index]" size="@i.Block.FieldLength.ToString()"/>
-    }
-    else
-    {
-        <span style="white-space: pre">@i.Block.Content</span>
-    }
+<h2 align="center">@title</h2>
+<style> 
+input[type~="text"], textarea{
+  width: 10%;
+  padding: 2px 10px;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 3px solid green;
 }
-</pre>
+</style>
+<div align="center">
+    <pre id="codedash-problem">
+    @{ int c = 0;}
+    <div align="left">
+        @foreach (var i in pbs)
+        {
+            if (i.IsInput)
+            {
+                <input type="text"@bind="inputs[c]" size="@i.FieldLength"/>
+                c++;
+            }
+            else
+            {
+                <span style="font-size:18px; font-family:'Source Code Pro'">
+                    <span style="white-space: pre">@i.Content</span>
+                </span>
+            }
+        }
+    </div>
+    </pre>
+    <button @onclick="Submit" class="btn btn-primary mt-3 align-self-end">Submit!</button>
 
-<button @onclick="Submit">Submit</button>
+</div>
 
 @code {
+    private static string tempSequence = "for i in range(6):\u000a    print(\u001f0\u001f-1\u001e\"ay\"\u001f1\u001f6\u001e, end='')\u000aprint('9')\u000a\u000aprint('ay' * 64 + '9')\u001f0\u001f-1";
+    
     // "ay" problem: 27aad10f-f8d2-4a4a-ab84-351eec0244e0
+    
     [Parameter]
     [SupplyParameterFromQuery(Name = "id")]
     public string? id { get; set; }
