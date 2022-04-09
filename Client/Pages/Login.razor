@@ -7,13 +7,15 @@
 @using System.Security.Cryptography
 @using System.Net
 <h3>Login</h3>
-   
-<div class="form-box">
+
+
+<div style = "color: #525151" class="form-box">
     <div class="form-grid">
         <label for="signup-username">Username</label>
         <input @bind="Username" id="signup-username" />
         <label for="signup-password">Password</label>
         <input type="password" @bind="Password" id="signup-password" />
+        
     </div>
     <button @onclick="HashLoginDetails" class="btn btn-primary mt-3" id="signup-button">Login!</button>
     <a class="mt-4" href="/register">I don't have an account</a>

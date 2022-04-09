@@ -1,11 +1,13 @@
 @page "/submit"
 @inject HttpClient HttpClient
 <h3>SubmitCodeTest</h3>
-
+<br/>
 <textarea @bind="GetLines"></textarea>
-<button @onclick="Run">Run on server</button>
+<br/>
+<button @onclick="Run" class="btn btn-primary mt-3" id="signup-button">Run on server</button>
+<br/><br/>
 <p>@_message</p>
-<p>Output:</p>
+<h4>Output:</h4>
 @foreach (string str in _output)
 {
     <p>@str</p>
