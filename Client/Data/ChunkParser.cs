@@ -13,7 +13,7 @@ public class ProblemBlock
 
     public static List<ProblemBlock> ParseProblemString(string str)
     {
-        return str.Split('\u001E', '\n').Select(r =>
+        return str.Split('\u001E').Select(r =>
         {
             string[] fields = r.Split('\u001F');
             Console.WriteLine(JsonSerializer.Serialize(fields));

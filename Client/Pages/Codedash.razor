@@ -2,15 +2,22 @@
 @using codedash.Client.Data
 @using System.Text.Json
 
+<pre id="codedash-problem">
+@foreach (var block in pbs)
+{
+    if (block.IsInput)
+    {
+        <input size="@block.FieldLength"/>
+    }
+    else
+    {
+        <span style="white-space: pre">@block.Content</span>
+    }
+}
+</pre>
 
 @code {
-    private static string tempSequence = "print(\"Hi\")\u000aprint(\u001f0\u001f-1\u001e\"Hello, World!\"\u001f1\u001f13\u001e)\u001f0\u001f-1";
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-
-        var pbs = ProblemBlock.ParseProblemString(tempSequence);
-        Console.WriteLine(JsonSerializer.Serialize(pbs));
-    }
+    private static string tempSequence = "for i in range(6):\n    print(\u001F0\u001F-1\u001E\"ay\"\u001F1\u001F6\u001E, end='')\nprint('9')\n\nprint('ay' * 64 + '9')\u001F0\u001F-1";
+    
+    private List<ProblemBlock> pbs = ProblemBlock.ParseProblemString(tempSequence);
 }

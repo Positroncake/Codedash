@@ -13,24 +13,18 @@ public class ProblemController : ControllerBase
     {
         _context = context;
     }
+    
+    [HttpGet("Get")]
+    public ActionResult GetProblemById(Guid id)
+    {
+        Problem? problem = FindProblem(id);
+        if (problem is null) return NotFound();
+        return Ok(problem);
+    }
 
     [NonAction]
     private Problem? FindProblem(Guid id)
     {
         return _context.Problem!.FirstOrDefault(p => p.Id == id, null);
-    }
-    
-    [HttpGet("Get")]
-    public ActionResult GetProblemByID(Guid id)
-    {
-        Problem? problem = FindProblem(id);
-        if (problem is null)
-        {
-            return NotFound();
-        }
-        else
-        {
-            return Ok(problem);
-        }
     }
 };
