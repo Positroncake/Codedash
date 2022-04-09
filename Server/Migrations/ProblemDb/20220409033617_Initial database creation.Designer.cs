@@ -11,7 +11,7 @@ using codedash.Shared;
 namespace codedash.Server.Migrations.ProblemDb
 {
     [DbContext(typeof(ProblemDbContext))]
-    [Migration("20220409032853_Initial database creation")]
+    [Migration("20220409033617_Initial database creation")]
     partial class Initialdatabasecreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,8 +35,8 @@ namespace codedash.Server.Migrations.ProblemDb
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c4aa67c0-b2fc-425e-b8ad-1104da56cde6"),
-                            Chunks = "print(\"Hi\")0-1\nprint(0-1Hello, World!113)0-1"
+                            Id = new Guid("709d3b5b-a640-4ed8-a58a-e7330f3ce575"),
+                            Chunks = "print(\"Hi\")\nprint(0-1\"Hello, World!\"113)0-1"
                         });
                 });
 #pragma warning restore 612, 618
