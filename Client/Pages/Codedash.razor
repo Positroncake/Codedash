@@ -27,6 +27,8 @@
 @code {
     private static string tempSequence = "for i in range(6):\u000a    print(\u001f0\u001f-1\u001e\"ay\"\u001f1\u001f6\u001e, end='')\u000aprint('9')\u000a\u000aprint('ay' * 64 + '9')\u001f0\u001f-1";
     
+    // "ay" problem: 27aad10f-f8d2-4a4a-ab84-351eec0244e0
+    
     [Parameter]
     [SupplyParameterFromQuery(Name = "id")]
     public string? id { get; set; }
@@ -37,9 +39,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        HttpResponseMessage response = await HttpClient.GetAsync("ProblemApi/Get/27aad10f-f8d2-4a4a-ab84-351eec0244e0");
+        HttpResponseMessage response = await HttpClient.GetAsync($"ProblemApi/Get/{id}");
         Problem p = (await response.Content.ReadFromJsonAsync<Problem>())!;
-        Console.WriteLine();
+        Console.WriteLine(id);
         
         title = p.Title!;
         pbs = ProblemBlock.ParseProblemString(p.Chunks!);
@@ -56,7 +58,7 @@
 
     private async Task SendToController()
     {
-        HttpResponseMessage response = await HttpClient.PostAsJsonAsync("ProblemApi/Verify/27aad10f-f8d2-4a4a-ab84-351eec0244e0", inputs);
+        HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"ProblemApi/Verify/{id}", inputs);
         List<int> results = response.Content.ReadFromJsonAsync<List<int>>().Result!;
         foreach (int x in results) Console.WriteLine(x);
     }
