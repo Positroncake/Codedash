@@ -80,7 +80,6 @@ input[type~="text"],[type~="password"]{
         {
             string token = await response.Content.ReadAsStringAsync();
             await localStorage.SetItemAsync("loginToken", token);
-            NavigationManager.NavigateTo("/AccountPage", true);
         }
     }
 

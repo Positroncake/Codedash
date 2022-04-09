@@ -9,22 +9,32 @@
         </button>
         <div class="collapse navbar-collapse" id="navbar-collapsible">
             <ul class="navbar-nav me-auto">
-                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                <li class="nav-item"><a class="nav-link"
-                        href="/codedash">Play</a></li>
-                <li class="nav-item"><a class="nav-link" href="/submitcustom">Custom</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="/codedash">
+                        Play
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/submitcustom">Custom</a>
+                </li>
             </ul>
             <ul class="navbar-nav ms-auto">
-                @if (_displayRegistrationAndLogin)
-                {
-                    <li class="nav-item me-0"><a class="nav-link" href="/register">Register</a></li>
-                    <li class="nav-item me-0"><a class="nav-link" href="/login">Login</a></li>
-                }
-                else
-                {
-                    <li class="nav-item me-0"><a class="nav-link" href="/logout">Logout</a></li>
-                    <li class="nav-item me-0"><a class="nav-link" href="/accountpage">My account</a></li>
-                }
+                <li class="nav-item me-0 @(_displayRegistrationAndLogin ? "" : "d-none")">
+                    <a class="nav-link" href="/register">Register</a>
+                </li>
+                <li class="nav-item me-0 @(_displayRegistrationAndLogin ? "" : "d-none")">
+                    <a class="nav-link" href="/login">Login</a>
+                </li>
+                <li class="nav-item me-0 @(!_displayRegistrationAndLogin ? "" : "d-none")">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+                <li class="nav-item me-0 @(!_displayRegistrationAndLogin ? "" : "d-none")">
+                    <a class="nav-link" href="/accountpage">My account</a>
+                </li>
             </ul>
         </div>
     </div>
