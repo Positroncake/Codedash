@@ -28,7 +28,7 @@
         {
             if (block.IsInput)
             {
-                <input type="text" class="@styles[index]" @bind="inputs[index]" size="@block.FieldLength"/>
+                <input type="text" class="@styles[index]" @bind="inputs[index]" size="@block.FieldLength.ToString()"/>
             }
             else
             {
@@ -45,20 +45,16 @@
 </div>
 
 @code {
-    private static string tempSequence = "for i in range(6):\u000a    print(\u001f0\u001f-1\u001e\"ay\"\u001f1\u001f6\u001e, end='')\u000aprint('9')\u000a\u000aprint('ay' * 64 + '9')\u001f0\u001f-1";
-
-    // "ay" problem: 27aad10f-f8d2-4a4a-ab84-351eec0244e0
-
     [Parameter]
     [SupplyParameterFromQuery(Name = "id")]
     public string? id { get; set; }
 
     private string title = "";
+    private int level = 0;
     private string output = "";
     private List<ProblemBlock> pbs = new();
     private List<string> inputs = new();
     private List<string> styles = new();
-
     private bool showNextLevel = false;
 
     protected override async Task OnInitializedAsync()
@@ -71,22 +67,19 @@
                 HttpResponseMessage response = await HttpClient.GetAsync($"ProblemApi/Get/{id}");
                 return (await response.Content.ReadFromJsonAsync<Problem>())!;
             }
-            else
+            if (!await LSS.ContainKeyAsync("codedash-campaign-level"))
             {
-                if (!await LSS.ContainKeyAsync("codedash-campaign-level"))
-                {
-                    await LSS.SetItemAsync<int>("codedash-campaign-level", 0);
-                }
-
-                int level = await LSS.GetItemAsync<int>("codedash-campaign-level");
-
-                HttpResponseMessage response0 = await HttpClient.GetAsync($"ProblemApi/Campaign/{level}");
-                string guid = await response0.Content.ReadAsStringAsync();
-
-                id = guid;
-                HttpResponseMessage response1 = await HttpClient.GetAsync($"ProblemApi/Get/{guid}");
-                return (await response1.Content.ReadFromJsonAsync<Problem>())!;
+                await LSS.SetItemAsync<int>("codedash-campaign-level", 0);
             }
+
+            int level = await LSS.GetItemAsync<int>("codedash-campaign-level");
+
+            HttpResponseMessage response0 = await HttpClient.GetAsync($"ProblemApi/Campaign/{level}");
+            string guid = await response0.Content.ReadAsStringAsync();
+
+            id = guid;
+            HttpResponseMessage response1 = await HttpClient.GetAsync($"ProblemApi/Get/{guid}");
+            return (await response1.Content.ReadFromJsonAsync<Problem>())!;
         }))();
 
         title = p.Title!;
@@ -133,8 +126,8 @@
             await LSS.SetItemAsync<int>("codedash-campaign-level", 0);
         }
         
-        int level = await LSS.GetItemAsync<int>("codedash-campaign-level");
-        await LSS.SetItemAsync<int>("codedash-campaign-level", level);
+        level = await LSS.GetItemAsync<int>("codedash-campaign-level");
+        await LSS.SetItemAsync<int>("codedash-campaign-level", level + 1);
         
         NavMan.NavigateTo(NavMan.Uri, forceLoad: true);
     }

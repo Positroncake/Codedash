@@ -1,4 +1,7 @@
-﻿<nav class="navbar navbar-expand-md navbar-dark bg-dark w-100 px-2">
+﻿@using Blazored.LocalStorage
+@inject ILocalStorageService localStorage
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark w-100 px-2">
     <div class="container-fluid justify-content-start">
         <a class="navbar-brand">codedash</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible">
@@ -12,16 +15,29 @@
                 <li class="nav-item"><a class="nav-link" href="/submitcustom">Custom</a></li>
             </ul>
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item me-0"><a class="nav-link" href="/register">Register</a></li>
-                <li class="nav-item me-0"><a class="nav-link" href="/login">Login</a></li>
-                <li class="nav-item me-0"><a class="nav-link" href="/logout">Logout</a></li>
-                <li class="nav-item me-0"><a class="nav-link" href="/accountpage">Account</a></li>
+                @if (_displayRegistrationAndLogin)
+                {
+                    <li class="nav-item me-0"><a class="nav-link" href="/register">Register</a></li>
+                    <li class="nav-item me-0"><a class="nav-link" href="/login">Login</a></li>
+                }
+                else
+                {
+                    <li class="nav-item me-0"><a class="nav-link" href="/logout">Logout</a></li>
+                    <li class="nav-item me-0"><a class="nav-link" href="/accountpage">My account</a></li>
+                }
             </ul>
-
         </div>
     </div>
 </nav>
 
 @code {
-    // Insert login detection code that disables some things
+    private static bool _displayRegistrationAndLogin = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _displayRegistrationAndLogin = !await localStorage.ContainKeyAsync("loginToken");
+        await Task.Delay(0);
+        StateHasChanged();
+    }
+
 }

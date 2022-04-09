@@ -1,4 +1,8 @@
 @page "/Logout"
+@using Blazored.LocalStorage
+@inject HttpClient HttpClient
+@inject ILocalStorageService localStorage
+
 <br/>
 <style>
     body {
@@ -10,8 +14,15 @@
 </body>
 
 @code {
+    string? _result;
+    HttpResponseMessage? _response;
+
     protected override async Task OnInitializedAsync()
     {
+        _result = await localStorage.GetItemAsync<string>("loginToken");
+        _response = await HttpClient.DeleteAsync($"TokenApi/Logout/{_result}");
+        Console.WriteLine(_response);
+        await localStorage.RemoveItemAsync("loginToken");
     }
 
 }

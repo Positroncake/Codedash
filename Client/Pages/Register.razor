@@ -1,6 +1,7 @@
 @page "/Register"
 @inject ILocalStorageService localStorage
 @inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
 @using Blazored.LocalStorage
 @using codedash.Shared
 @using System.Security.Cryptography
@@ -82,6 +83,7 @@ input[type~="text"],[type~="password"]{
         accountToken = await response.Content.ReadAsStringAsync();
         await localStorage.SetItemAsync("loginToken", accountToken);
         string x = localStorage.GetItemAsync<string>("loginToken").Result;
+        NavigationManager.NavigateTo("/AccountPage", true);
     }
 
 }
