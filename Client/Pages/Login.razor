@@ -6,6 +6,17 @@
 @using System.Text
 @using System.Security.Cryptography
 @using System.Net
+
+<style> 
+input[type~="text"],[type~="password"]{
+  width: 100%;
+  padding: 2px 10px;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 3px solid black;
+}
+</style>
+
 <p>&nbsp</p>
 <div align="center">
     <h1>Login</h1>
@@ -14,15 +25,22 @@
 <div align="center">
     <div style = "color: #525151" class="form-box">
         <div class="form-grid">
-            <div align="left">
-                <label for="signup-username">Username</label>
+            <div align="left" style="display: inline">
+                <label for="signup-username">Username:</label>
             </div>
-            <input @bind="Username" id="signup-username"/>
-            <div align="left">
-                <label for="signup-password">Password</label>
+            
+            <div align="right">
+                 <input type="text"@bind="Username" id="signup-username"/>
             </div>
-            <input type="password" @bind="Password" id="signup-password"/>
-             
+            <dr></dr><dr></dr><dr></dr>
+            <div align="left">
+                <label for="signup-password">Password:</label>
+            </div>
+
+            <div align="right" style="display: inline">
+                <input type="password" @bind="Password" id="signup-password"/>
+            </div>
+
         </div>
         <button @onclick="HashLoginDetails" class="btn btn-primary mt-3 align-self-end" id="signup-button">Login!</button>
         
@@ -30,7 +48,6 @@
         
     </div>
 </div>
-
 @code {
     // ReSharper disable InconsistentNaming
     private string? Username, Password;
