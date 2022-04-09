@@ -19,7 +19,7 @@ input[type~="text"], textarea{
     @{ int c = 0;}
     <div align="left">
         @foreach (var i in pbs)
-        {
+        { 
             if (i.IsInput)
             {
                 <input type="text"@bind="inputs[c]" size="@i.FieldLength"/>
