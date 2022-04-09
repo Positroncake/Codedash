@@ -12,6 +12,11 @@ code {
     background-color: #AAA;
 }
 
+.center-content {
+    width: min(992px, 100%);
+    margin-left: auto;
+    margin-right: auto;
+}
 
 
 h1:focus {
