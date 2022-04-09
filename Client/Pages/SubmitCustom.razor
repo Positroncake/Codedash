@@ -4,23 +4,29 @@
 @using System.Text.RegularExpressions
 @using codedash.Shared
 
+<style>
+    body {
+        background-image: linear-gradient(to right, #ddd6f3, #faaca8);
+    }
+</style>
+
 <div class="center-content">
-    <div style="display: inline-block">
-        <p>Code and input fields</p>
-        <textarea @bind="_input"></textarea>
-    </div>
-    <div style="display: inline-block">
-        <p>Expected output</p>
-        <textarea @bind="_output"></textarea>
-    </div>
-    <div style="display: inline-block">
-        <p>Name of custom codedash</p>
-        <input @bind="_title"/>
-        <p>Difficulty level 0-5 </p>
-        <input @bind="@_difficulty"/>
+    <div class="d-flex flex-row justify-content-center">
+        <div class="form-box">
+            <div class="form-grid">
+                <label for="submit-source">Source (use /$[expected]$\ to input)</label>
+                <textarea @bind="_input" id="submit-source"></textarea>
+                <label for="submit-output">Expected output</label>
+                <textarea @bind="_output" id="submit-output"></textarea>
+                <label for="submit-title">Name of custom codedash</label>
+                <input @bind="_title" id="submit-title"/>
+                <label for="submit-difficulty">Difficulty level 0-5 </label>
+                <input @bind="@_difficulty" id="submit-difficulty"/>
+            </div>
+            <button @onclick="Parse">Submit</button>
+        </div>
     </div>
 </div>
-<button @onclick="Parse">Submit</button>
 
 @code {
     private string _input = "";
@@ -37,7 +43,7 @@
         string[] str = text.Split('\u0011');
 
         var data = new StringBuilder();
-        
+
         for (var i = 0; i < str.Length; ++i)
         {
             if (firstIsInputField && i % 2 == 0 || !firstIsInputField && i % 2 != 0)
@@ -79,4 +85,5 @@
         };
         HttpResponseMessage response = await HttpClient.PostAsJsonAsync("ProblemApi/Submit", problem);
     }
+
 }
