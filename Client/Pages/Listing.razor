@@ -1,23 +1,33 @@
 @page "/Listing"
 @using codedash.Shared
 @inject HttpClient HttpClient
-<h3>Listing</h3>
 
-@if (Problems.Count > 0)
-{
-    @foreach (Problem problem in Problems)
-    {
-        <p>Title: @problem.Title   |   Difficulty (/10): @problem.Difficulty.ToString()   |   Made by users: @problem.IsUserMade.ToString()</p>
+<style>
+    body {
+        background-image: linear-gradient(to right, #ddd6f3, #faaca8);
     }
-}
+</style>
 
-@code {
-    List<Problem>? Problems = new();
-
-    protected override async Task OnInitializedAsync()
+<div class="center-content p-3" style="background-color: white; min-height: 70vh">
+    <h3>Listing</h3>
+    @if (Problems.Count > 0)
     {
-        var result = await HttpClient.GetFromJsonAsync<List<Problem>>("/ProblemApi/List");
-        Problems = result;
+        @foreach (Problem problem in Problems)
+        {
+            <p>Title: @problem.Title | Difficulty (/10): @problem.Difficulty.ToString() | Made by users: @problem.IsUserMade.ToString()</p>
+        }
     }
 
-}
+    @code {
+        List<Problem>? Problems = new();
+
+        protected override async Task OnInitializedAsync()
+        {
+            var result = await HttpClient.GetFromJsonAsync<List<Problem>>("/ProblemApi/List");
+            Problems = result;
+        }
+
+    }
+</div>
+
+
