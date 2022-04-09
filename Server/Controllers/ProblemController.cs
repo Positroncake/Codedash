@@ -16,7 +16,7 @@ public class ProblemController : ControllerBase
         _context = context;
     }
 
-    [HttpGet("Get")]
+    [HttpGet("Get/{id}")]
     public ActionResult GetProblemById(string id)
     {
         Problem? problem = FindProblem(id);
