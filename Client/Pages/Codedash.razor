@@ -4,6 +4,7 @@
 @using Microsoft.AspNetCore.Components
 @using codedash.Client.Data
 @using Blazored.LocalStorage
+@using System.Net
 @inject ILocalStorageService LSS
 @inject NavigationManager NavMan
 
@@ -37,29 +38,37 @@
         }
     </div>
     </pre>
-    <p class="@(showNextLevel? "" : "d-none")" style="color: var(--bs-success)">
+    <p class="@(showNextLevel ? "" : "d-none")" style="color: var(--bs-success)">
         Congratulations! You can go to the next level!
     </p>
+    <p class="@(showCampaignEnd ? "" : "d-none")" style="color: var(--bs-success)">
+        You've completed all of the official levels! Wow!<br/>
+        Check out some problems submitted by Codedashers like you!
+    </p>
     <button @onclick="Submit" class="btn btn-primary mt-3 align-self-end">Submit</button>
-    <button @onclick="GoToNextLevel" class="btn btn-success mt-3 align-self-end @(showNextLevel? "" : "d-none")">Continue</button>
+    <button @onclick="GoToNextLevel" class="btn btn-success mt-3 align-self-end @(showNextLevel ? "" : "d-none")">Continue</button>
+    <a href="/Listing" class="btn btn-success mt-3 align-self-end @(showCampaignEnd ? "" : "d-none")">Go to Listing</a>
+
 </div>
 
 @code {
+
     [Parameter]
     [SupplyParameterFromQuery(Name = "id")]
     public string? id { get; set; }
 
+    private bool isCampaign = false;
+
     private string title = "";
-    private int level = 0;
     private string output = "";
     private List<ProblemBlock> pbs = new();
     private List<string> inputs = new();
     private List<string> styles = new();
     private bool showNextLevel = false;
+    private bool showCampaignEnd = false;
 
     protected override async Task OnInitializedAsync()
     {
-        
         Problem p = await ((Func<Task<Problem>>) (async () =>
         {
             if (!(id is null))
@@ -67,6 +76,7 @@
                 HttpResponseMessage response = await HttpClient.GetAsync($"ProblemApi/Get/{id}");
                 return (await response.Content.ReadFromJsonAsync<Problem>())!;
             }
+            isCampaign = true;
             if (!await LSS.ContainKeyAsync("codedash-campaign-level"))
             {
                 await LSS.SetItemAsync<int>("codedash-campaign-level", 0);
@@ -85,7 +95,7 @@
         title = p.Title!;
         output = p.Output!;
         pbs = ProblemBlock.ParseProblemString(p.Chunks!);
-        // Resize input list to match
+    // Resize input list to match
         var size = pbs.Aggregate(0, (curr, next) => next.IsInput ? curr + 1 : curr);
         inputs.Resize(size, "");
         styles.Resize(size, "");
@@ -94,7 +104,7 @@
     private async void Submit()
     {
         HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"ProblemApi/Verify/{id}", inputs);
-        List<int> results = response.Content.ReadFromJsonAsync<List<int>>().Result!;
+        List<int> results = (await response.Content.ReadFromJsonAsync<List<int>>())!;
         foreach (var (value, index) in results.Select((v, i) => (v, i)))
         {
             switch (value)
@@ -110,12 +120,25 @@
             }
         }
 
-        if (results.TrueForAll(i => i == 1))
+        if (results.TrueForAll(i => i == 1) && isCampaign)
         {
-            Console.WriteLine("Badoosh!");
-            showNextLevel = true;
-            await Task.Delay(0);
-            StateHasChanged();
+            int level = await LSS.GetItemAsync<int>("codedash-campaign-level");
+            HttpResponseMessage response0 = await HttpClient.GetAsync($"ProblemApi/Campaign/{level + 1}");
+            switch (response0.StatusCode)
+            {
+                case HttpStatusCode.OK:
+                    showNextLevel = true;
+                    await Task.Delay(0);
+                    StateHasChanged();
+                    break;
+                case HttpStatusCode.BadRequest:
+                    showCampaignEnd = true;
+                    await Task.Delay(0);
+                    StateHasChanged();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -125,10 +148,10 @@
         {
             await LSS.SetItemAsync<int>("codedash-campaign-level", 0);
         }
-        
-        level = await LSS.GetItemAsync<int>("codedash-campaign-level");
+
+        int level = await LSS.GetItemAsync<int>("codedash-campaign-level");
         await LSS.SetItemAsync<int>("codedash-campaign-level", level + 1);
-        
+
         NavMan.NavigateTo(NavMan.Uri, forceLoad: true);
     }
 
