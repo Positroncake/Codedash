@@ -66,7 +66,7 @@ public class ProblemController : ControllerBase
         
         string matches = TokenMatch(args);
 
-        var res = matches.Split(new[] {"\r\n", "\n", "\r"}, StringSplitOptions.RemoveEmptyEntries)
+        var res = matches.Split(new[] {"\n", "\r\n", "\r"}, StringSplitOptions.RemoveEmptyEntries)
             .Select((str, _) => int.Parse(str)).ToList();
         
         Console.Write("Python list: ");
