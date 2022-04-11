@@ -1,6 +1,7 @@
+using codedash.Shared;
 using Microsoft.EntityFrameworkCore;
 
-namespace codedash.Shared;
+namespace codedash.Server.Data;
 
 public class AccountDbContext : DbContext
 {

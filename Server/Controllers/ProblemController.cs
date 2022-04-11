@@ -1,9 +1,8 @@
 using codedash.Shared;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using System.IO;
 using System.Text.Json;
-using System.Text.RegularExpressions;
+using codedash.Server.Data;
 
 namespace codedash.Server.Controllers;
 
@@ -59,7 +58,7 @@ public class ProblemController : ControllerBase
         }
 
         IEnumerable<string> blocks = ProblemBlock.ParseProblemString(problem.Chunks!)
-            .Where((chunk) => chunk.IsInput).Select((chunk, idx) => chunk.Content);
+            .Where((chunk) => chunk.IsInput).Select((chunk, _) => chunk.Content);
 
         // Zip/Select does interleave
         List<string> args = vals.Zip(blocks, (val, block) => new { Val = val, Block = block })
@@ -68,7 +67,7 @@ public class ProblemController : ControllerBase
         string matches = TokenMatch(args);
 
         var res = matches.Split(new[] {"\r\n", "\n", "\r"}, StringSplitOptions.RemoveEmptyEntries)
-            .Select((str, idx) => int.Parse(str)).ToList();
+            .Select((str, _) => int.Parse(str)).ToList();
         
         Console.Write("Python list: ");
         foreach (var i in res)

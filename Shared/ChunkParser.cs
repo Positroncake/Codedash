@@ -1,13 +1,10 @@
-using System;
-using System.Linq;
 using System.Text.Json;
-using codedash.Shared;
 
 namespace codedash.Shared;
 
 public class ProblemBlock
 {
-    public string Content { get; set; }
+    public string? Content { get; set; }
     public bool IsInput { get; set; }
     public int? FieldLength { get; set; }
 

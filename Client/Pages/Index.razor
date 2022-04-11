@@ -1,7 +1,6 @@
 ﻿@page "/"
-@inject HttpClient HttpClient
-@inject IJSRuntime JS
-@using codedash.Shared
+@inject HttpClient _httpClient
+@inject IJSRuntime _js
 <style>
     body {
       background-image: linear-gradient(to right, #ddd6f3, #faaca8);
@@ -47,12 +46,3 @@
         <li>A nice, fancy username you can call your own!</li>
     </ul>
 </div>
-
-@code {
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-    }
-
-}

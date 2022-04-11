@@ -1,11 +1,11 @@
 @page "/Codedash"
-@inject HttpClient HttpClient
+@inject HttpClient _httpClient
 @using codedash.Shared
 @using Microsoft.AspNetCore.Components
 @using codedash.Client.Data
 @using Blazored.LocalStorage
-@inject ILocalStorageService LSS
-@inject NavigationManager NavMan
+@inject ILocalStorageService _localStorage
+@inject NavigationManager _navMan
 
 <style>
     body {
@@ -14,19 +14,19 @@
 </style>
 
 <div class="center-content">
-    <h2 class="text-center">@title</h2>
+    <h2 class="text-center">@_title</h2>
     <pre id="codedash-output" class="text-start">
-        @output
+        @_output
     </pre>
     <pre id="codedash-problem">
     <div class="text-start">
-        @foreach (var (index, block) in pbs.Collect(0, (i, block) =>
+        @foreach (var (index, block) in _pbs.Collect(0, (i, block) =>
         {
             var next = block.IsInput ? i + 1 : i;
             return ((i, block), next);
         }))
         {
-            if (block.IsInput)
+            if (!block.IsInput)
             {
                 <input type="text" class="@styles[index]" @bind="inputs[index]" size="@block.FieldLength.ToString()"/>
             }
@@ -37,63 +37,63 @@
         }
     </div>
     </pre>
-    <p class="@(showNextLevel? "" : "d-none")" style="color: var(--bs-success)">
+    <p class="@(_showNextLevel? "" : "d-none")" style="color: var(--bs-success)">
         Congratulations! You can go to the next level!
     </p>
     <button @onclick="Submit" class="btn btn-primary mt-3 align-self-end">Submit</button>
-    <button @onclick="GoToNextLevel" class="btn btn-success mt-3 align-self-end @(showNextLevel? "" : "d-none")">Continue</button>
+    <button @onclick="GoToNextLevel" class="btn btn-success mt-3 align-self-end @(_showNextLevel? "" : "d-none")">Continue</button>
 </div>
 
 @code {
     [Parameter]
     [SupplyParameterFromQuery(Name = "id")]
-    public string? id { get; set; }
+    public string? Id { get; set; }
 
-    private string title = "";
-    private int level = 0;
-    private string output = "";
-    private List<ProblemBlock> pbs = new();
+    private string _title = "";
+    private int _level;
+    private string _output = "";
+    private List<ProblemBlock> _pbs = new();
     private List<string> inputs = new();
     private List<string> styles = new();
-    private bool showNextLevel = false;
+    private bool _showNextLevel;
 
     protected override async Task OnInitializedAsync()
     {
         
         Problem p = await ((Func<Task<Problem>>) (async () =>
         {
-            if (!(id is null))
+            if (!(Id is null))
             {
-                HttpResponseMessage response = await HttpClient.GetAsync($"ProblemApi/Get/{id}");
+                HttpResponseMessage response = await _httpClient.GetAsync($"ProblemApi/Get/{Id}");
                 return (await response.Content.ReadFromJsonAsync<Problem>())!;
             }
-            if (!await LSS.ContainKeyAsync("codedash-campaign-level"))
+            if (!await _localStorage.ContainKeyAsync("codedash-campaign-level"))
             {
-                await LSS.SetItemAsync<int>("codedash-campaign-level", 0);
+                await _localStorage.SetItemAsync("codedash-campaign-level", 0);
             }
 
-            int level = await LSS.GetItemAsync<int>("codedash-campaign-level");
+            int level = await _localStorage.GetItemAsync<int>("codedash-campaign-level");
 
-            HttpResponseMessage response0 = await HttpClient.GetAsync($"ProblemApi/Campaign/{level}");
+            HttpResponseMessage response0 = await _httpClient.GetAsync($"ProblemApi/Campaign/{level}");
             string guid = await response0.Content.ReadAsStringAsync();
 
-            id = guid;
-            HttpResponseMessage response1 = await HttpClient.GetAsync($"ProblemApi/Get/{guid}");
+            Id = guid;
+            HttpResponseMessage response1 = await _httpClient.GetAsync($"ProblemApi/Get/{guid}");
             return (await response1.Content.ReadFromJsonAsync<Problem>())!;
         }))();
 
-        title = p.Title!;
-        output = p.Output!;
-        pbs = ProblemBlock.ParseProblemString(p.Chunks!);
+        _title = p.Title!;
+        _output = p.Output!;
+        _pbs = ProblemBlock.ParseProblemString(p.Chunks!);
         // Resize input list to match
-        var size = pbs.Aggregate(0, (curr, next) => next.IsInput ? curr + 1 : curr);
+        var size = _pbs.Aggregate(0, (curr, next) => next.IsInput ? curr + 1 : curr);
         inputs.Resize(size, "");
         styles.Resize(size, "");
     }
 
     private async void Submit()
     {
-        HttpResponseMessage response = await HttpClient.PostAsJsonAsync($"ProblemApi/Verify/{id}", inputs);
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"ProblemApi/Verify/{Id}", inputs);
         List<int> results = response.Content.ReadFromJsonAsync<List<int>>().Result!;
         foreach (var (value, index) in results.Select((v, i) => (v, i)))
         {
@@ -113,7 +113,7 @@
         if (results.TrueForAll(i => i == 1))
         {
             Console.WriteLine("Badoosh!");
-            showNextLevel = true;
+            _showNextLevel = true;
             await Task.Delay(0);
             StateHasChanged();
         }
@@ -121,15 +121,15 @@
 
     private async void GoToNextLevel()
     {
-        if (!await LSS.ContainKeyAsync("codedash-campaign-level"))
+        if (!await _localStorage.ContainKeyAsync("codedash-campaign-level"))
         {
-            await LSS.SetItemAsync<int>("codedash-campaign-level", 0);
+            await _localStorage.SetItemAsync("codedash-campaign-level", 0);
         }
         
-        level = await LSS.GetItemAsync<int>("codedash-campaign-level");
-        await LSS.SetItemAsync<int>("codedash-campaign-level", level + 1);
+        _level = await _localStorage.GetItemAsync<int>("codedash-campaign-level");
+        await _localStorage.SetItemAsync("codedash-campaign-level", _level + 1);
         
-        NavMan.NavigateTo(NavMan.Uri, forceLoad: true);
+        _navMan.NavigateTo(_navMan.Uri, forceLoad: true);
     }
 
 }

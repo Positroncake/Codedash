@@ -1,6 +1,7 @@
+using codedash.Shared;
 using Microsoft.EntityFrameworkCore;
 
-namespace codedash.Shared;
+namespace codedash.Server.Data;
 
 public class AccountServices
 {
@@ -18,19 +19,19 @@ public class AccountServices
     #region Public methods
     public async Task<List<Account>> GetAccountAsync()
     {
-        return await dbContext.Account.ToListAsync();
+        return await dbContext.Account!.ToListAsync();
     }
 
     public async Task<Account> AddAccountAsync(Account account)
     {
-        dbContext.Account.Add(account);
+        dbContext.Account!.Add(account);
         await dbContext.SaveChangesAsync();
         return account;
     }
     
     public async Task<Account> UpdateAccountAsync(Account account)
     {
-        Account? productExist = dbContext.Account.FirstOrDefault(p => p.Id == account.Id);
+        Account? productExist = dbContext.Account!.FirstOrDefault(p => p.Id == account.Id);
         if (productExist == null) return account;
         dbContext.Update(account);
         await dbContext.SaveChangesAsync();
@@ -40,7 +41,7 @@ public class AccountServices
     
     public async Task DeleteAccountAsync(Account account)
     {
-        dbContext.Account.Remove(account);
+        dbContext.Account!.Remove(account);
         await dbContext.SaveChangesAsync();
     }
     #endregion

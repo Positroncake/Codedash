@@ -1,7 +1,7 @@
 @page "/Register"
-@inject ILocalStorageService localStorage
-@inject HttpClient HttpClient
-@inject NavigationManager NavigationManager
+@inject ILocalStorageService _localStorage
+@inject HttpClient _httpClient
+@inject NavigationManager _navigationManager
 @using Blazored.LocalStorage
 @using codedash.Shared
 @using System.Security.Cryptography
@@ -42,9 +42,7 @@ input[type~="text"],[type~="password"]{
 
 
 @code {
-    private string accountToken = "";
-    private bool isVisible = true;
-    private Guid Id;
+    private string _accountToken = "";
     // ReSharper disable InconsistentNaming
     private string? Username, Password, DisplayName;
     // ReSharper restore InconsistentNaming
@@ -79,12 +77,12 @@ input[type~="text"],[type~="password"]{
 
     private async Task SendToController(Account account)
     {
-        HttpResponseMessage response = await HttpClient.PostAsJsonAsync("AccountApi/Register", account);
-        accountToken = await response.Content.ReadAsStringAsync();
-        await localStorage.SetItemAsync("loginToken", accountToken);
-        string x = await localStorage.GetItemAsync<string>("loginToken");
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync("AccountApi/Register", account);
+        _accountToken = await response.Content.ReadAsStringAsync();
+        await _localStorage.SetItemAsync("loginToken", _accountToken);
+        await _localStorage.GetItemAsync<string>("loginToken");
         
-        NavigationManager.NavigateTo("/AccountPage");
+        _navigationManager.NavigateTo("/AccountPage");
     }
 
 }

@@ -2,12 +2,12 @@ namespace codedash.Client.Data;
 
 public static class LinqExtensions
 {
-    public static IEnumerable<R> Collect<R, A, T>(this IEnumerable<T> obj, A initial, Func<A, T, (R, A)> acc)
+    public static IEnumerable<TR> Collect<TR, TA, T>(this IEnumerable<T> obj, TA initial, Func<TA, T, (TR, TA)> acc)
     {
-        A tmp = initial;
+        TA tmp = initial;
         foreach (T i in obj)
         {
-            R res;
+            TR res;
             (res, tmp) = acc(tmp, i);
             yield return res;
         }

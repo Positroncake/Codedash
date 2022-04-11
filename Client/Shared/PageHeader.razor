@@ -1,7 +1,7 @@
 ﻿@using Blazored.LocalStorage
-@inject ILocalStorageService localStorage
+@inject ILocalStorageService _localStorage
 @using Microsoft.AspNetCore.Components
-@inject NavigationManager navigationManager
+@inject NavigationManager _navigationManager
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark w-100 px-2">
     <div class="container-fluid justify-content-start">
@@ -48,14 +48,16 @@
 @code {
     private static bool _userNotLoggedIn = false;
 
+#pragma warning disable CS1998
     protected override async Task OnInitializedAsync()
+#pragma warning restore CS1998
     {
-        navigationManager.LocationChanged += (object? src, LocationChangedEventArgs evt) => CheckState();
+        _navigationManager.LocationChanged += (_, _) => CheckState();
     }
 
     private async void CheckState()
     {
-        _userNotLoggedIn = !await localStorage.ContainKeyAsync("loginToken");
+        _userNotLoggedIn = !await _localStorage.ContainKeyAsync("loginToken");
         await Task.Delay(0);
         StateHasChanged();
     }

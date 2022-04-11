@@ -1,3 +1,4 @@
+using codedash.Server.Data;
 using codedash.Shared;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,7 +8,7 @@ namespace codedash.Server.Controllers;
 [Route("TokenApi")]
 public class TokenController : ControllerBase
 {
-    private static TokenDbContext _context;
+    private static TokenDbContext _context = null!;
 
     public TokenController(TokenDbContext context)
     {

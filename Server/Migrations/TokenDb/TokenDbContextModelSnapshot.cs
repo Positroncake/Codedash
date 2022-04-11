@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using codedash.Shared;
+using codedash.Server.Data;
 
 #nullable disable
 
@@ -34,14 +34,14 @@ namespace codedash.Server.Migrations.TokenDb
                     b.HasData(
                         new
                         {
-                            Id = "1c4f4d3a-8bd0-449e-a838-435b233296da",
-                            TokenString = "_ecCic0v=kzsIBaqTPQSCcx'#`L/#J;7nk>Bo1{Vj[qaBw<h(m@g(RJLRH4`kHB;-N}%R:]^M'f^bp\\_NwgJ||JA<K/KHxT_r_3Jjl{j2/;wo(Y%#.,B6+',uk@oP\"Kq&Q!l8f\"z/D6@AxQ5DO6S-Y~{=y#!>K_M&K$9_TEre#E_\"d=inJRznpHhiL;+)vgGlg[Bkk3TwpI6.\"fpinR`DH]FrHc_\\qb&6)B-m&o#?<~TWMJypVK,+'cv7]/*kldQa`2rEx2mk;sGwV*@d!5W=j|lA$la/fL-}A-?P1`vLXKl!EITF;Y,P+[5m_</k39BiL,G0{Y.O$&`d1V%<}r7m$}~yb$s1F&{cxh|#rsN{|[?FFy>S({L,`V2V2w,Q$P):1CTt5gA)LC&]f$3}F'5*Qs2E0R;hwc*!MoU6i0qPAoluwI~26aG/y0j|&9|)H46J\"0%A)4[vEsU^rp&:m!w/(NGWbPMyX-4j;6MhDwZ,pbjPVnG;2XoXdbg#$f^))h5",
+                            Id = "082bbe49-0d2b-4451-abc1-f487bff55dc7",
+                            TokenString = "?=yZ?;9\\RGRXy>Ng'38Bg_X2ne_&#z(gSUDuNsA?FvfzvRIMFE0:c2\"t\\5:nCsC!$Ml#;&#[QM_O,5x\\J\\&cq<]zw%!3R'(^6MT0^!U?#Z:yPz08|D&ku)V#m@Ey{=M+Hn+_e=mepH|TrA[+_wihs;#o7?N=R+)@Kk;yET/{UD0W2[$Dbm7}?~(gzcR>i)Uwg+D#~JL)Vf[ay\"H;;]wm]8IAjG<^l<VO%5&iQNy!?YZ3fX:W4!U)t`6XDS6YWaw_qZ!{Y'Cd;(lB\\Ay}`2OSQW%.P[~uX^(Zt<GtbeYhzfs#kH&-Rwe7JjQY48.zd?c5<Vc+9@@k~LnoOZ;o;RO0|ou:N#pTzsQ>`(G,m'McbQ\"dQPw?j{,iQu]#Y5m8_#++OU9)HAD4K5PO;p3h=&8,'ME_Q^)/U$V)oe;>-rb33X&yl|Gwtu'lf'?GC(Rc@)S-%ZL+e)V>M5fx|D4S6oG{#GK\"cAZ\"R0^J0Jn0;w99gaMNpD\\6{*r-5<-059\\`/QQE",
                             UsernameHash = "3a2bdfc8841a6b57e71e90983ccd34cd7c8950d2d59506c9df7565978d1891ab11c7c2fc8948d1109eb098e8d016e2d4999a404d0e15ae0ce5637b0482446c0e"
                         },
                         new
                         {
-                            Id = "034c9eaa-739b-42ac-a742-12452ebade5d",
-                            TokenString = "hP~Rzz5371<rcr&v9E@mG[Vhg(A=ls1[r&f'z7XHGRD>_Xw2LDu~`|(994p[ta[r\"<?A.1bFsf;9(|'UZUusK|RzX63qwQlz)]tQ(7P*U@?GVtY,Ns6gjZ@:oeVcPS`*j\"<C7VyAvt`pGi0q&`V$O.6%ZLl@g9peUd~yz/+AExkGF4)m`'Pt\")2ojC93QRFn+b6c~Ep[BsNH3p?)IG^@)n-k_C^jSu:tVj`XmU`}%Edhdi/V?Pv(_QL]ab~HZ;+lavH?#FU6)]O3\\dh=d!]MS`!~aH165[}w^s3!<[)t$5?hxw?DwK-x;:o&nci2X,2~OHY0,iQJuL|7Mi+#|v;R8!t;?g3nz:}@fcC~.H2\\\\G3aSUGo{raH<r1B4,:~I@xOQe+T+4_TLFu(0Y(M)yGj\\AfV`N\\`b6h[PBFJdt98NA9=qdbEv[R~+MVaui&y9SV$iVq+mAi}ZcO\"^7<]A+=KL9-Ymt\\dDuXN$?dkPGsm#)|V|rG-u}J_mEHr#*PY$m$o",
+                            Id = "f97c0a84-1d24-4981-967c-28f57d506913",
+                            TokenString = "Nn;dI/C=}g2nGO@&[i_c3hlF2_Th!Ig&4Y}Hepmlg1w}Z{vyFO{SG&'Vv[+M1mV2u5:.u9jLFUCiHq5}fo\"$S[xNHQ#4\"s.D/J>i\\AnR5+AJ]eH_uO!@b4p)/?B_Cn;1E#s^3rkPY`0ALxHbe9h;7'3sd'e!o8SfMBjLIoWU]HvB!Nak(^dxW<=fDqo/Ys[i8wQ35oSmjc\"X0>Ow.s<YtB9HvUKeXr_eeDa?6^EygTUC:E4qJ-unS=v5\\gl;(cSz>amyN*CxRzZ0#Xm~\\AT'H}O7w~Pa|Ig+_vUk]o\"0w<lJs^H#`@FFZ<&{*jtaoC;~@B.~!O7L)W9LBJ+By9=\"ZJvCnk)*@\"d/YY#j$GToH(]i6Sg%i.<_YG[&@B,>Z_4V,@LJ!BsI48<D[-?DAM)[C?JmVFxo^B:7eti@-{ip;h6SW-aj>am]t+k>Y0[tg<Hgnf^';wBFdgbg<\\P#:.RtZ]|ieI$!'VozsDQIIj_vpB;s/|m&n9^5.|6)4)fyBVQ_",
                             UsernameHash = "4a2bdfc8841a6b57e71e90983ccd34cd7c8950d2d59506c9df7565978d1891ab11c7c2fc8948d1109eb098e8d016e2d4999a404d0e15ae0ce5637b0482446c0e"
                         });
                 });

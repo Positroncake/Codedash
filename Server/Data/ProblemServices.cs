@@ -1,6 +1,7 @@
+using codedash.Shared;
 using Microsoft.EntityFrameworkCore;
 
-namespace codedash.Shared;
+namespace codedash.Server.Data;
 
 public class ProblemServices
 {
@@ -18,19 +19,19 @@ public class ProblemServices
     #region Public methods
     public async Task<List<Problem>> GetProblemAsync()
     {
-        return await dbContext.Problem.ToListAsync();
+        return await dbContext.Problem!.ToListAsync();
     }
 
     public async Task<Problem> AddProblemAsync(Problem problem)
     {
-        dbContext.Problem.Add(problem);
+        dbContext.Problem!.Add(problem);
         await dbContext.SaveChangesAsync();
         return problem;
     }
     
     public async Task<Problem> UpdateProblemAsync(Problem problem)
     {
-        Problem? productExist = dbContext.Problem.FirstOrDefault(p => p.Id == problem.Id);
+        Problem? productExist = dbContext.Problem!.FirstOrDefault(p => p.Id == problem.Id);
         if (productExist == null) return problem;
         dbContext.Update(problem);
         await dbContext.SaveChangesAsync();
@@ -40,7 +41,7 @@ public class ProblemServices
     
     public async Task DeleteProblemAsync(Problem problem)
     {
-        dbContext.Problem.Remove(problem);
+        dbContext.Problem!.Remove(problem);
         await dbContext.SaveChangesAsync();
     }
     #endregion

@@ -1,6 +1,6 @@
 @page "/Listing"
 @using codedash.Shared
-@inject HttpClient HttpClient
+@inject HttpClient _httpClient
 
 <style>
     body {
@@ -10,7 +10,7 @@
 
 <div class="center-content p-3" style="background-color: white; min-height: 70vh">
     <h3 class="mb-4">Listing</h3>
-    @if (Problems.Count > 0)
+    @if (_problems!.Count > 0)
     {
         <table class="table table-bordered table-striped table-sm">
             <thead class="table-dark">
@@ -21,7 +21,7 @@
             </tr>
             </thead>
             <tbody>
-            @foreach (Problem problem in Problems)
+            @foreach (Problem problem in _problems)
             {
                 <tr>
                     <td>@problem.Title</td>
@@ -35,10 +35,10 @@
     }
     else
     {
-        <div class="@(IsError? "d-none" : "")">
+        <div class="@(_isError? "d-none" : "")">
             Loading problems...
         </div>
-        <div class="@(IsError? "" : "d-none")">
+        <div class="@(_isError? "" : "d-none")">
             <p>It looks like our server is broken!</p>
             <p>
                 Please contact <a href="mailto:roncake@protonmail.com">roncake@protonmail.com</a> for help.
@@ -47,19 +47,19 @@
     }
 
     @code {
-        List<Problem>? Problems = new();
-        bool IsError = false;
+        List<Problem>? _problems = new();
+        bool _isError;
 
         protected override async Task OnInitializedAsync()
         {
-            List<Problem>? result = await HttpClient.GetFromJsonAsync<List<Problem>>("/ProblemApi/List");
+            List<Problem>? result = await _httpClient.GetFromJsonAsync<List<Problem>>("/ProblemApi/List");
             if (result is null)
             {
-                IsError = true;
+                _isError = true;
                 await Task.Delay(0);
                 StateHasChanged();
             }
-            Problems = result;
+            _problems = result;
             await Task.Delay(0);
             StateHasChanged();
         }

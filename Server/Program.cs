@@ -1,4 +1,4 @@
-using codedash.Shared;
+using codedash.Server.Data;
 using Microsoft.EntityFrameworkCore;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -20,7 +20,7 @@ builder.Services.AddDbContext<AccountDbContext>(options =>
 builder.Services.AddScoped<AccountServices>();
 builder.Services.AddDbContext<TokenDbContext>(options =>
 {
-    options.UseSqlite("Data source = Token.db");
+    options.UseSqlite("Data source = Tokens.db");
 });
 builder.Services.AddScoped<TokenServices>();
 

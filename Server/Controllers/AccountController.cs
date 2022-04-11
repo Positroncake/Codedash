@@ -1,3 +1,4 @@
+using codedash.Server.Data;
 using codedash.Shared;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +23,7 @@ public class RegisterController : ControllerBase
     {
         try
         {
+#pragma warning disable CS4014
             AddToDb(account);
             string tokenString = TokenGen.GenerateToken().ToLowerInvariant();
             RegisterToken(new Token
@@ -32,7 +34,7 @@ public class RegisterController : ControllerBase
             });
             return Ok(tokenString);
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return new StatusCodeResult(StatusCodes.Status500InternalServerError);
         }
@@ -67,6 +69,7 @@ public class RegisterController : ControllerBase
         // Generate a new token
         string tokenString = TokenGen.GenerateToken().ToLowerInvariant();
         RegisterToken(new Token
+#pragma warning restore CS4014
         {
             Id = Guid.NewGuid().ToString().ToLowerInvariant(),
             TokenString = tokenString,
@@ -80,6 +83,6 @@ public class RegisterController : ControllerBase
     {
         // Search for account with specified username
         Account? result = _context.Account!.FirstOrDefault(acc => acc.UsernameHash == query.UsernameHash);
-        return result != null && query.PasswordHash!.Equals(result!.PasswordHash);
+        return result != null && query.PasswordHash!.Equals(result.PasswordHash);
     }
 }
