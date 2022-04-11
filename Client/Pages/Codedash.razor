@@ -4,6 +4,7 @@
 @using Microsoft.AspNetCore.Components
 @using codedash.Client.Data
 @using Blazored.LocalStorage
+@using System.Net
 @inject ILocalStorageService _localStorage
 @inject NavigationManager _navMan
 
@@ -40,14 +41,23 @@
     <p class="@(_showNextLevel? "" : "d-none")" style="color: var(--bs-success)">
         Congratulations! You can go to the next level!
     </p>
+    <p class="@(showCampaignEnd ? "" : "d-none")" style="color: var(--bs-success)">
+        You've completed all of the official levels! Wow!<br/>
+        Check out some problems submitted by Codedashers like you!
+    </p>
     <button @onclick="Submit" class="btn btn-primary mt-3 align-self-end">Submit</button>
     <button @onclick="GoToNextLevel" class="btn btn-success mt-3 align-self-end @(_showNextLevel? "" : "d-none")">Continue</button>
+    <a href="/Listing" class="btn btn-success mt-3 align-self-end @(showCampaignEnd ? "" : "d-none")">Go to Listing</a>
+
 </div>
 
 @code {
+
     [Parameter]
     [SupplyParameterFromQuery(Name = "id")]
     public string? Id { get; set; }
+
+    private bool isCampaign = false;
 
     private string _title = "";
     private int _level;
@@ -56,10 +66,10 @@
     private List<string> inputs = new();
     private List<string> styles = new();
     private bool _showNextLevel;
+    private bool showCampaignEnd = false;
 
     protected override async Task OnInitializedAsync()
     {
-        
         Problem p = await ((Func<Task<Problem>>) (async () =>
         {
             if (!(Id is null))
@@ -67,6 +77,7 @@
                 HttpResponseMessage response = await _httpClient.GetAsync($"ProblemApi/Get/{Id}");
                 return (await response.Content.ReadFromJsonAsync<Problem>())!;
             }
+            isCampaign = true;
             if (!await _localStorage.ContainKeyAsync("codedash-campaign-level"))
             {
                 await _localStorage.SetItemAsync("codedash-campaign-level", 0);
@@ -110,12 +121,25 @@
             }
         }
 
-        if (results.TrueForAll(i => i == 1))
+        if (results.TrueForAll(i => i == 1) && isCampaign)
         {
-            Console.WriteLine("Badoosh!");
-            _showNextLevel = true;
-            await Task.Delay(0);
-            StateHasChanged();
+            int level = await _localStorage.GetItemAsync<int>("codedash-campaign-level");
+            HttpResponseMessage response0 = await HttpClient.GetAsync($"ProblemApi/Campaign/{level + 1}");
+            switch (response0.StatusCode)
+            {
+                case HttpStatusCode.OK:
+                    _showNextLevel = true;
+                    await Task.Delay(0);
+                    StateHasChanged();
+                    break;
+                case HttpStatusCode.BadRequest:
+                    showCampaignEnd = true;
+                    await Task.Delay(0);
+                    StateHasChanged();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 
