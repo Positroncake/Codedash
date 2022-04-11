@@ -47,6 +47,12 @@
 
   <ItemGroup>
     <Folder Include="Files" />
+    <Folder Include="Migrations\TokenDb" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\TokenDb\20220409143215_Initial database creation.Designer.cs" />
+    <Compile Remove="Migrations\TokenDb\20220409143215_Initial database creation.cs" />
   </ItemGroup>
 
 

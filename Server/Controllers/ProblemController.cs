@@ -57,11 +57,11 @@ public class ProblemController : ControllerBase
             return NotFound($"Could not find item with ID {id} in database");
         }
 
-        IEnumerable<string> blocks = ProblemBlock.ParseProblemString(problem.Chunks!)
+        IEnumerable<string?> blocks = ProblemBlock.ParseProblemString(problem.Chunks!)
             .Where((chunk) => chunk.IsInput).Select((chunk, _) => chunk.Content);
 
         // Zip/Select does interleave
-        List<string> args = vals.Zip(blocks, (val, block) => new { Val = val, Block = block })
+        List<string?> args = vals.Zip(blocks, (val, block) => new { Val = val, Block = block })
             .SelectMany((pack) => new[] { pack.Val, pack.Block }).ToList();
         
         string matches = TokenMatch(args);
@@ -78,7 +78,7 @@ public class ProblemController : ControllerBase
     }
     
     [NonAction]
-    private string TokenMatch(List<string> args)
+    private string TokenMatch(List<string?> args)
     {
         args.Insert(0, "Python/token-match.py");
 
@@ -88,8 +88,8 @@ public class ProblemController : ControllerBase
             RedirectStandardOutput = true,
             CreateNoWindow = true
         };
-        foreach (var a in args) {
-            startInfo.ArgumentList.Add(a);
+        foreach (string? a in args) {
+            startInfo.ArgumentList.Add(a!);
         }
 
         var process = new Process
