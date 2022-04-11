@@ -1,8 +1,8 @@
-using codedash.Server.Data;
-using codedash.Shared;
+using Codedash.Server.Data;
+using Codedash.Shared;
 using Microsoft.AspNetCore.Mvc;
 
-namespace codedash.Server.Controllers;
+namespace Codedash.Server.Controllers;
 
 [ApiController]
 [Route("AccountApi")]

@@ -1,4 +1,4 @@
-namespace codedash.Client.Data;
+namespace Codedash.Client.Data;
 
 public static class LinqExtensions
 {

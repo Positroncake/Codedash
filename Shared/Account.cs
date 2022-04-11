@@ -1,4 +1,4 @@
-namespace codedash.Shared;
+namespace Codedash.Shared;
 
 public class Account
 {

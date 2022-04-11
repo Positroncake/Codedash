@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace codedash.Shared;
+namespace Codedash.Shared;
 
 public class ProblemBlock
 {

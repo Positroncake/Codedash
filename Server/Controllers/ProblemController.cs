@@ -1,10 +1,10 @@
-using codedash.Shared;
-using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Text.Json;
-using codedash.Server.Data;
+using Codedash.Server.Data;
+using Codedash.Shared;
+using Microsoft.AspNetCore.Mvc;
 
-namespace codedash.Server.Controllers;
+namespace Codedash.Server.Controllers;
 
 [ApiController]
 [Route("ProblemApi")]
@@ -130,4 +130,4 @@ public class ProblemController : ControllerBase
 
         return Ok(levels[level]);
     }
-};
+}

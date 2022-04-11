@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace codedash.Shared;
+namespace Codedash.Shared;
 
 public class TokenGen
 {

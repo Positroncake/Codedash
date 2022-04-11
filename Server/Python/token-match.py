@@ -3,8 +3,10 @@ import token
 import sys
 import tokenize
 
+
 def iter_group(obj, n):
     return zip(*([iter(obj)] * n))
+
 
 tokens = []
 for line in sys.argv[1:]:
@@ -15,7 +17,7 @@ for line in sys.argv[1:]:
         ])
 
 for user, akey in iter_group(tokens, 2):
-    if (user == akey):
+    if user == akey:
         print("1")
     else:
         print("0")

@@ -1,7 +1,7 @@
 @page "/SubmitCustom"
 @inject HttpClient _httpClient
 @using System.Text
-@using codedash.Shared
+@using global::Codedash.Shared
 
 <style>
     body {
@@ -17,7 +17,7 @@
                 <textarea @bind="_input" id="submit-source"></textarea>
                 <label for="submit-output">Expected output</label>
                 <textarea @bind="_output" id="submit-output"></textarea>
-                <label for="submit-title">Name of custom codedash</label>
+                <label for="submit-title">Name of custom Codedash</label>
                 <input @bind="_title" id="submit-title"/>
                 <label for="submit-difficulty">Difficulty level 0-10 </label>
                 <input @bind="@_difficulty" id="submit-difficulty"/>

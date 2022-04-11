@@ -1,10 +1,10 @@
 @page "/Codedash"
 @inject HttpClient _httpClient
-@using codedash.Shared
 @using Microsoft.AspNetCore.Components
-@using codedash.Client.Data
 @using Blazored.LocalStorage
 @using System.Net
+@using global::Codedash.Client.Data
+@using global::Codedash.Shared
 @inject ILocalStorageService _localStorage
 @inject NavigationManager _navMan
 
@@ -12,7 +12,7 @@
     body {
         background-image: linear-gradient(to right, #ddd6f3, #faaca8);
     }
-</style>
+</style>swash
 
 <div class="center-content">
     <h2 class="text-center">@_title</h2>
@@ -27,7 +27,7 @@
             return ((i, block), next);
         }))
         {
-            if (!block.IsInput)
+            if (block.IsInput)
             {
                 <input type="text" class="@styles[index]" @bind="inputs[index]" size="@block.FieldLength.ToString()"/>
             }

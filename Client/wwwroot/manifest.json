@@ -1,6 +1,6 @@
 {
-  "name": "codedash",
-  "short_name": "codedash",
+  "name": "Codedash",
+  "short_name": "Codedash",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",

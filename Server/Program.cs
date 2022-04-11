@@ -1,4 +1,4 @@
-using codedash.Server.Data;
+using Codedash.Server.Data;
 using Microsoft.EntityFrameworkCore;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -46,6 +46,7 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseSwagger();
 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Codedash API v1"));
+
 
 app.MapRazorPages();
 app.MapControllers();

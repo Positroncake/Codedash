@@ -1,7 +1,7 @@
-using codedash.Shared;
+using Codedash.Shared;
 using Microsoft.EntityFrameworkCore;
 
-namespace codedash.Server.Data;
+namespace Codedash.Server.Data;
 
 public class AccountServices
 {
