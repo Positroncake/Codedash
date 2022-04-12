@@ -2096,7 +2096,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/o1/sdk/7.0.100-preview.2.22153.17/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/home/roncake/.dotnet/sdk/7.0.100-preview.2.22153.17/RuntimeIdentifierGraph.json"
       }
     }
   }
