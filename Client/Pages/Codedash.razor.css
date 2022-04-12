@@ -1,0 +1,36 @@
+div.center-content {
+    text-align: center;
+    width: min(720px, 100%);
+    margin-left: auto;
+    margin-right: auto;
+    
+    padding: 0.75em;
+    
+    min-height: 80vh;
+    
+    background-color: white;
+}
+
+pre {
+    padding: 5px;
+    border-radius: 5px;
+    
+    width: min(500px, 95vw);
+    margin-left: auto;
+    margin-right: auto;
+
+    background-color: #AAA;
+}
+
+#codedash-problem input {
+    border: 1px solid gray;
+    border-bottom: 3px solid black;
+}
+
+#codedash-problem input.blank-correct {
+    border-bottom-color: #0A0 !important;
+}
+
+#codedash-problem input.blank-wrong {
+    border-bottom-color: #A00 !important;
+}

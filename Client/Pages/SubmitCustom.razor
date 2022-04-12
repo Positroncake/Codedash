@@ -1,0 +1,90 @@
+@page "/SubmitCustom"
+@using System.Text
+@using global::Codedash.Shared
+@inject HttpClient _httpClient
+
+<style>
+    body {
+        background-image: linear-gradient(to right, #ddd6f3, #faaca8);
+    }
+</style>
+
+<div class="center-content">
+    <div class="d-flex flex-row justify-content-center">
+        <div class="form-box">
+            <div class="form-grid">
+                <label for="submit-source">Source (use /$[expected]$\ to input)</label>
+                <textarea @bind="_input" id="submit-source"></textarea>
+                <label for="submit-output">Expected output</label>
+                <textarea @bind="_output" id="submit-output"></textarea>
+                <label for="submit-title">Name of custom Codedash</label>
+                <input @bind="_title" id="submit-title"/>
+                <label for="submit-difficulty">Difficulty level 0-10 </label>
+                <input @bind="@_difficulty" id="submit-difficulty"/>
+            </div>
+            <button @onclick="Parse">Submit</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string _input = "";
+    private string _output = "";
+    private string _title = "";
+    private string _difficulty = "";
+
+    private void Parse()
+    {
+        string text = _input;
+        var firstIsInputField = false;
+        text = text.Replace(@"/$[", "\u0011");
+        text = text.Replace(@"]$\", "\u0011");
+        string[] str = text.Split('\u0011');
+
+        var data = new StringBuilder();
+
+        for (var i = 0; i < str.Length; ++i)
+        {
+            if (firstIsInputField && i % 2 == 0 || !firstIsInputField && i % 2 != 0)
+            {
+                data.Append(str[i]);
+                data.Append("\u001f");
+                data.Append("0");
+                data.Append("\u001f");
+                data.Append("-1");
+                data.Append("\u001e");
+            }
+            else if (firstIsInputField && i % 2 != 0 || !firstIsInputField && i % 2 == 0)
+            {
+                data.Append(str[i]);
+                data.Append("\u001f");
+                data.Append("1");
+                data.Append("\u001f");
+                data.Append(str[i].Length + 2);
+                data.Append("\u001e");
+            }
+        }
+
+    // remove last char (should always be \u001E)
+        data.Remove(data.Length - 1, 1);
+        var result = data.ToString();
+#pragma warning disable CS4014
+        SendToController(result, _difficulty);
+#pragma warning restore CS4014
+    }
+
+    private async Task SendToController(string output, string difficulty)
+    {
+        var problem = new Problem
+        {
+            Id = Guid.NewGuid().ToString().ToLowerInvariant(),
+            Chunks = output,
+            Output = _output,
+            Title = _title,
+            Difficulty = int.Parse(difficulty),
+            IsUserMade = true
+        };
+        await _httpClient.PostAsJsonAsync("ProblemApi/Submit", problem);
+    }
+
+}
