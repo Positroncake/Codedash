@@ -43,7 +43,7 @@ namespace Codedash.Server.Migrations.ProblemDb
                     b.HasData(
                         new
                         {
-                            Id = "fdc8ef68-cd39-44ac-a323-8a3ce9941304",
+                            Id = "fbfc9038-b902-40e8-b0b4-fe3b11beb1c4",
                             Chunks = "print(\"Hi\")\nprint(0-1\"Hello, World!\"113)0-1",
                             Difficulty = 0,
                             IsUserMade = false,
@@ -52,7 +52,7 @@ namespace Codedash.Server.Migrations.ProblemDb
                         },
                         new
                         {
-                            Id = "29ffa948-8c51-4df4-a2aa-59894749f81c",
+                            Id = "366f6e22-efd0-4e12-98af-99145881ccf3",
                             Chunks = "for i in range(6):\n    print(0-1\"ay\"16, end='')\nprint('9')\n\nprint('ay' * 64 + '9')0-1",
                             Difficulty = 0,
                             IsUserMade = false,

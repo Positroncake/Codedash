@@ -1,11 +1,12 @@
 @page "/Register"
-@inject ILocalStorageService _localStorage
-@inject HttpClient _httpClient
-@inject NavigationManager _navigationManager
-@using Blazored.LocalStorage
-@using System.Security.Cryptography
-@using System.Text
 @using global::Codedash.Shared
+@using System.Text
+@using System.Security.Cryptography
+@using Blazored.LocalStorage
+@inject HttpClient _httpClient
+@inject ILocalStorageService _localStorage
+@inject NavigationManager _navigationManager
+
 <style> 
 input[type~="text"],[type~="password"]{
   width: 100%;

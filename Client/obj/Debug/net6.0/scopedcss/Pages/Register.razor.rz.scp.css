@@ -1,0 +1,55 @@
+div.form-grid[b-rbfolnnew5] {
+    display: grid;
+    gap: 0.5rem;
+    
+    align-self: stretch;
+}
+
+div.form-box[b-rbfolnnew5] {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    
+    width: min(500px, 100%);
+
+    padding: 0.5rem;
+    border-radius: 3px;
+
+    border: 1px solid gray;
+    background-color: gainsboro;
+}
+
+label[for="signup-username"][b-rbfolnnew5] {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+input#signup-username[b-rbfolnnew5] {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+label[for="signup-password"][b-rbfolnnew5] {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+input#signup-password[b-rbfolnnew5] {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+label[for="signup-display"][b-rbfolnnew5] {
+    grid-column: 1;
+    grid-row: 3;
+}
+
+input#signup-display[b-rbfolnnew5] {
+    grid-column: 2;
+    grid-row: 3;
+}
+
+#signup-button[b-rbfolnnew5] {
+    min-width: 30%;
+    text-align: center;
+}

@@ -1,11 +1,11 @@
 @page "/Login"
-@inject ILocalStorageService _localStorage
-@inject HttpClient _httpClient
-@inject NavigationManager _navigationManager
-@using Blazored.LocalStorage
+@using global::Codedash.Shared
 @using System.Text
 @using System.Security.Cryptography
-@using global::Codedash.Shared
+@using Blazored.LocalStorage
+@inject HttpClient _httpClient
+@inject ILocalStorageService _localStorageService
+@inject NavigationManager _navigationManager
 
 <style> 
 input[type~="text"],[type~="password"]{
@@ -78,7 +78,7 @@ input[type~="text"],[type~="password"]{
         if (response.IsSuccessStatusCode)
         {
             string token = await response.Content.ReadAsStringAsync();
-            await _localStorage.SetItemAsync("loginToken", token);
+            await _localStorageService.SetItemAsync("loginToken", token);
             
             _navigationManager.NavigateTo("/AccountPage");
         }

@@ -53,11 +53,11 @@ namespace Codedash.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "bf4605f5-2ac0-4d77-ac08-a488692966be",
+                            Id = "af0b3528-ff50-450c-a6d8-7a6c49a35878",
                             AverageTime = 0m,
                             DisplayName = "Generic PCI Device",
                             PasswordHash = "c2015c71296c09ac3279d2d27a35b0fd58bb39f5b184a160f52e39c495056494f2eae2c84bc90f24013580bf9e34c318c98c27a85d0b88e63f4ef4c695d6699b",
-                            RegistrationDate = new DateTime(2022, 4, 11, 16, 56, 53, 721, DateTimeKind.Utc).AddTicks(9807),
+                            RegistrationDate = new DateTime(2022, 4, 12, 17, 38, 30, 125, DateTimeKind.Utc).AddTicks(8680),
                             Solved = 0,
                             Submissions = "",
                             SubmissionsNum = 0,
@@ -65,11 +65,11 @@ namespace Codedash.Server.Migrations
                         },
                         new
                         {
-                            Id = "afcd68bf-7f4e-4744-8a56-4c552fd06ea3",
+                            Id = "cd8ca16f-0247-429a-be14-b4c8e9cca43c",
                             AverageTime = 0m,
                             DisplayName = "Generic electron",
                             PasswordHash = "d2015c71296c09ac3279d2d27a35b0fd58bb39f5b184a160f52e39c495056494f2eae2c84bc90f24013580bf9e34c318c98c27a85d0b88e63f4ef4c695d6699b",
-                            RegistrationDate = new DateTime(2022, 4, 11, 16, 56, 53, 721, DateTimeKind.Utc).AddTicks(9825),
+                            RegistrationDate = new DateTime(2022, 4, 12, 17, 38, 30, 125, DateTimeKind.Utc).AddTicks(8704),
                             Solved = 0,
                             Submissions = "",
                             SubmissionsNum = 0,

@@ -1,0 +1,70 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/roncake/RiderProjects/Codedash/Shared/Codedash.Shared.csproj": {}
+  },
+  "projects": {
+    "/home/roncake/RiderProjects/Codedash/Shared/Codedash.Shared.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/roncake/RiderProjects/Codedash/Shared/Codedash.Shared.csproj",
+        "projectName": "Codedash.Shared",
+        "projectPath": "/home/roncake/RiderProjects/Codedash/Shared/Codedash.Shared.csproj",
+        "packagesPath": "/home/roncake/.nuget/packages/",
+        "outputPath": "/home/roncake/RiderProjects/Codedash/Shared/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/roncake/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.0, 6.0.0]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.0, 6.0.0]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/o1/sdk/7.0.100-preview.2.22153.17/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

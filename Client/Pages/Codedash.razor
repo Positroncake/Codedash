@@ -1,10 +1,10 @@
 @page "/Codedash"
-@inject HttpClient _httpClient
-@using Microsoft.AspNetCore.Components
-@using Blazored.LocalStorage
-@using System.Net
-@using global::Codedash.Client.Data
 @using global::Codedash.Shared
+@using global::Codedash.Client.Data
+@using System.Net
+@using Blazored.LocalStorage
+@using Microsoft.AspNetCore.Components
+@inject HttpClient _httpClient
 @inject ILocalStorageService _localStorage
 @inject NavigationManager _navMan
 
@@ -21,9 +21,9 @@
     </pre>
     <pre id="codedash-problem">
     <div class="text-start">
-        @foreach (var (index, block) in _pbs.Collect(0, (i, block) =>
+        @foreach ((int index, ProblemBlock block) in _pbs.Collect(0, (i, block) =>
         {
-            var next = block.IsInput ? i + 1 : i;
+            int next = block.IsInput ? i + 1 : i;
             return ((i, block), next);
         }))
         {
@@ -72,7 +72,7 @@
     {
         Problem p = await ((Func<Task<Problem>>) (async () =>
         {
-            if (!(Id is null))
+            if (Id is not null)
             {
                 HttpResponseMessage response = await _httpClient.GetAsync($"ProblemApi/Get/{Id}");
                 return (await response.Content.ReadFromJsonAsync<Problem>())!;
@@ -83,7 +83,7 @@
                 await _localStorage.SetItemAsync("codedash-campaign-level", 0);
             }
 
-            int level = await _localStorage.GetItemAsync<int>("codedash-campaign-level");
+            var level = await _localStorage.GetItemAsync<int>("codedash-campaign-level");
 
             HttpResponseMessage response0 = await _httpClient.GetAsync($"ProblemApi/Campaign/{level}");
             string guid = await response0.Content.ReadAsStringAsync();
@@ -97,7 +97,7 @@
         _output = p.Output!;
         _pbs = ProblemBlock.ParseProblemString(p.Chunks!);
         // Resize input list to match
-        var size = _pbs.Aggregate(0, (curr, next) => next.IsInput ? curr + 1 : curr);
+        int size = _pbs.Aggregate(0, (curr, next) => next.IsInput ? curr + 1 : curr);
         inputs.Resize(size, "");
         styles.Resize(size, "");
     }
@@ -106,40 +106,34 @@
     {
         HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"ProblemApi/Verify/{Id}", inputs);
         List<int> results = response.Content.ReadFromJsonAsync<List<int>>().Result!;
-        foreach (var (value, index) in results.Select((v, i) => (v, i)))
+        foreach ((int value, int index) in results.Select((v, i) => (v, i)))
         {
-            switch (value)
+            styles[index] = value switch
             {
-                case 0:
-                    styles[index] = "blank-wrong";
-                    break;
-                case 1:
-                    styles[index] = "blank-correct";
-                    break;
-                default:
-                    throw new InvalidOperationException("Blank broke");
-            }
+                0 => "blank-wrong",
+                1 => "blank-correct",
+                _ => throw new InvalidOperationException("Blank broke")
+                };
         }
 
-        if (results.TrueForAll(i => i == 1) && _isCampaign)
+        if (!results.TrueForAll(i => i == 1) || !_isCampaign) return;
+        var level = await _localStorage.GetItemAsync<int>("codedash-campaign-level");
+        HttpResponseMessage response0 = await _httpClient.GetAsync($"ProblemApi/Campaign/{level + 1}");
+        // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
+        switch (response0.StatusCode)
         {
-            int level = await _localStorage.GetItemAsync<int>("codedash-campaign-level");
-            HttpResponseMessage response0 = await _httpClient.GetAsync($"ProblemApi/Campaign/{level + 1}");
-            switch (response0.StatusCode)
-            {
-                case HttpStatusCode.OK:
-                    _showNextLevel = true;
-                    await Task.Delay(0);
-                    StateHasChanged();
-                    break;
-                case HttpStatusCode.BadRequest:
-                    _showCampaignEnd = true;
-                    await Task.Delay(0);
-                    StateHasChanged();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            case HttpStatusCode.OK:
+                _showNextLevel = true;
+                await Task.Delay(0);
+                StateHasChanged();
+                break;
+            case HttpStatusCode.BadRequest:
+                _showCampaignEnd = true;
+                await Task.Delay(0);
+                StateHasChanged();
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 
