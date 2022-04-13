@@ -6,6 +6,5 @@ Server/obj
 Shared/bin
 Shared/obj
 # Server files
-Server/Files
 *.db-*
 mono_crash.*.json
