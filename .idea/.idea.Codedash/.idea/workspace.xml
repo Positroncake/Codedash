@@ -7,14 +7,14 @@
     <projectFile profileName="IIS Express">Server/Codedash.Server.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3a7abe0f-d9b6-4761-a4bf-053d9ec30c0c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Codedash/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Codedash/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Shared/TokenGen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Shared/TokenGen.cs" afterDir="false" />
-    </list>
+    <list default="true" id="3a7abe0f-d9b6-4761-a4bf-053d9ec30c0c" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///home/roncake/DotnetWebapps/Codedash/Server/Migrations/ProblemDb/20220412173904_Initial database creation.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -116,8 +116,16 @@
       <option name="presentableId" value="Default" />
       <updated>1649807384651</updated>
       <workItem from="1649807388271" duration="673000" />
-      <workItem from="1649866639441" duration="164000" />
+      <workItem from="1649866639441" duration="366000" />
     </task>
+    <task id="LOCAL-00001" summary="Changed code style:&#10;- Use 'var' only when evident&#10;- Changed keywords to CLR types">
+      <created>1649866866940</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1649866866940</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -126,7 +134,20 @@
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Changed code style:&#10;- Use 'var' only when evident&#10;- Changed keywords to CLR types" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed code style:&#10;- Use 'var' only when evident&#10;- Changed keywords to CLR types" />
   </component>
 </project>
