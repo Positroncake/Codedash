@@ -43,26 +43,26 @@ input[type~="text"],[type~="password"]{
 
 
 @code {
-    private string _accountToken = "";
+    private String _accountToken = "";
     // ReSharper disable InconsistentNaming
-    private string? Username, Password, DisplayName;
+    private String? Username, Password, DisplayName;
     // ReSharper restore InconsistentNaming
 
     private Account NewAccount { get; } = new();
 
     private void AddToClass()
     {
-        string usernameHash, passwordHash;
-        byte[] usernameBytes = Encoding.UTF32.GetBytes(Username ?? string.Empty);
-        byte[] passwordBytes = Encoding.UTF32.GetBytes(Password ?? string.Empty);
+        String usernameHash, passwordHash;
+        Byte[] usernameBytes = Encoding.UTF32.GetBytes(Username ?? String.Empty);
+        Byte[] passwordBytes = Encoding.UTF32.GetBytes(Password ?? String.Empty);
         using (var sha512 = SHA512.Create())
         {
-            byte[] hashedUsernameBytes = sha512.ComputeHash(usernameBytes);
-            byte[] hashedPasswordBytes = sha512.ComputeHash(passwordBytes);
+            Byte[] hashedUsernameBytes = sha512.ComputeHash(usernameBytes);
+            Byte[] hashedPasswordBytes = sha512.ComputeHash(passwordBytes);
             var usernameString = new StringBuilder(128);
-            foreach (byte x in hashedUsernameBytes) usernameString.Append(x.ToString("X2"));
+            foreach (Byte x in hashedUsernameBytes) usernameString.Append(x.ToString("X2"));
             var passwordString = new StringBuilder(128);
-            foreach (byte x in hashedPasswordBytes) passwordString.Append(x.ToString("X2"));
+            foreach (Byte x in hashedPasswordBytes) passwordString.Append(x.ToString("X2"));
             usernameHash = usernameString.ToString().ToLowerInvariant();
             passwordHash = passwordString.ToString().ToLowerInvariant();
         }
@@ -81,7 +81,7 @@ input[type~="text"],[type~="password"]{
         HttpResponseMessage response = await _httpClient.PostAsJsonAsync("AccountApi/Register", account);
         _accountToken = await response.Content.ReadAsStringAsync();
         await _localStorage.SetItemAsync("loginToken", _accountToken);
-        await _localStorage.GetItemAsync<string>("loginToken");
+        await _localStorage.GetItemAsync<String>("loginToken");
         
         _navigationManager.NavigateTo("/AccountPage");
     }

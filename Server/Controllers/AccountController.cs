@@ -25,7 +25,7 @@ public class RegisterController : ControllerBase
         {
 #pragma warning disable CS4014
             AddToDb(account);
-            string tokenString = TokenGen.GenerateToken().ToLowerInvariant();
+            String tokenString = TokenGen.GenerateToken().ToLowerInvariant();
             RegisterToken(new Token
             {
                 Id = Guid.NewGuid().ToString().ToLowerInvariant(),
@@ -58,7 +58,7 @@ public class RegisterController : ControllerBase
     [Route("Login")]
     public ActionResult Login(Account account)
     {
-        bool result = ValidateAccount(account);
+        Boolean result = ValidateAccount(account);
         if (!result) return NotFound();
         
         // Delete old tokens by scanning through the database
@@ -67,7 +67,7 @@ public class RegisterController : ControllerBase
         _tokenContext.SaveChanges();
 
         // Generate a new token
-        string tokenString = TokenGen.GenerateToken().ToLowerInvariant();
+        String tokenString = TokenGen.GenerateToken().ToLowerInvariant();
         RegisterToken(new Token
 #pragma warning restore CS4014
         {
@@ -79,7 +79,7 @@ public class RegisterController : ControllerBase
     }
 
     [NonAction]
-    public bool ValidateAccount(Account query)
+    public Boolean ValidateAccount(Account query)
     {
         // Search for account with specified username
         Account? result = _context.Account!.FirstOrDefault(acc => acc.UsernameHash == query.UsernameHash);

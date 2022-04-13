@@ -40,7 +40,7 @@ public class AccountDbContext : DbContext
                 Solved = 0,
                 AverageTime = 0m,
                 SubmissionsNum = 0,
-                Submissions = string.Empty,
+                Submissions = String.Empty,
                 RegistrationDate = DateTime.UtcNow
             },
             new()
@@ -52,7 +52,7 @@ public class AccountDbContext : DbContext
                 Solved = 0,
                 AverageTime = 0m,
                 SubmissionsNum = 0,
-                Submissions = string.Empty,
+                Submissions = String.Empty,
                 RegistrationDate = DateTime.UtcNow
             }
         };

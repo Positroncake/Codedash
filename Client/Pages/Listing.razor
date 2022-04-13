@@ -48,11 +48,11 @@
 
     @code {
         List<Problem>? _problems = new();
-        bool _isError;
+        Boolean _isError;
 
         protected override async Task OnInitializedAsync()
         {
-            List<Problem>? result = await _httpClient.GetFromJsonAsync<List<Problem>>("/ProblemApi/List");
+            var result = await _httpClient.GetFromJsonAsync<List<Problem>>("/ProblemApi/List");
             if (result is null)
             {
                 _isError = true;

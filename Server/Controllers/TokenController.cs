@@ -17,7 +17,7 @@ public class TokenController : ControllerBase
 
     [HttpDelete]
     [Route("Logout/{token}")]
-    public ActionResult Logout([FromRoute] string token)
+    public ActionResult Logout([FromRoute] String token)
     {
         List<Token> items = _context.Token!.ToList();
         foreach (Token item in items.Where(x => x.TokenString!.Equals(token))) _context.Token!.Remove(item);

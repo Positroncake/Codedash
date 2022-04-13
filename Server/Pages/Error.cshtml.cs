@@ -8,9 +8,9 @@ namespace Codedash.Server.Pages;
 [IgnoreAntiforgeryToken]
 public class ErrorModel : PageModel
 {
-    public string? RequestId { get; set; }
+    public String? RequestId { get; set; }
 
-    public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+    public Boolean ShowRequestId => !String.IsNullOrEmpty(RequestId);
 
     public ErrorModel(ILogger<ErrorModel> logger)
     {

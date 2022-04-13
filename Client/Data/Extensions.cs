@@ -18,9 +18,9 @@ public static class ListExtensions
 {
     // Thanks to the guy on StackOverflow:
     // https://stackoverflow.com/questions/12231569/is-there-in-c-sharp-a-method-for-listt-like-resize-in-c-for-vectort
-    public static void Resize<T>(this List<T> list, int size, T filler)
+    public static void Resize<T>(this List<T> list, Int32 size, T filler)
     {
-        int cur = list.Count;
+        Int32 cur = list.Count;
         if(size < cur)
             list.RemoveRange(size, cur - size);
         else if(size > cur)
@@ -30,7 +30,7 @@ public static class ListExtensions
             list.AddRange(Enumerable.Repeat(filler, size - cur));
         }
     }
-    public static void Resize<T>(this List<T> list, int sz) where T : new()
+    public static void Resize<T>(this List<T> list, Int32 sz) where T : new()
     {
         Resize(list, sz, new T());
     }

@@ -15,12 +15,12 @@
 </body>
 
 @code {
-    string? _result;
+    String? _result;
     HttpResponseMessage? _response;
 
     protected override async Task OnInitializedAsync()
     {
-        _result = await _localStorage.GetItemAsync<string>("loginToken");
+        _result = await _localStorage.GetItemAsync<String>("loginToken");
         _response = await _httpClient.DeleteAsync($"TokenApi/Logout/{_result}");
         Console.WriteLine(_response);
         await _localStorage.RemoveItemAsync("loginToken");

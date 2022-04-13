@@ -28,18 +28,18 @@
 </div>
 
 @code {
-    private string _input = "";
-    private string _output = "";
-    private string _title = "";
-    private string _difficulty = "";
+    private String _input = "";
+    private String _output = "";
+    private String _title = "";
+    private String _difficulty = "";
 
     private void Parse()
     {
-        string text = _input;
+        String text = _input;
         var firstIsInputField = false;
         text = text.Replace(@"/$[", "\u0011");
         text = text.Replace(@"]$\", "\u0011");
-        string[] str = text.Split('\u0011');
+        String[] str = text.Split('\u0011');
 
         var data = new StringBuilder();
 
@@ -73,7 +73,7 @@
 #pragma warning restore CS4014
     }
 
-    private async Task SendToController(string output, string difficulty)
+    private async Task SendToController(String output, String difficulty)
     {
         var problem = new Problem
         {
@@ -81,7 +81,7 @@
             Chunks = output,
             Output = _output,
             Title = _title,
-            Difficulty = int.Parse(difficulty),
+            Difficulty = Int32.Parse(difficulty),
             IsUserMade = true
         };
         await _httpClient.PostAsJsonAsync("ProblemApi/Submit", problem);

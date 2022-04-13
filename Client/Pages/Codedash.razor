@@ -21,9 +21,9 @@
     </pre>
     <pre id="codedash-problem">
     <div class="text-start">
-        @foreach ((int index, ProblemBlock block) in _pbs.Collect(0, (i, block) =>
+        @foreach ((Int32 index, ProblemBlock block) in _pbs.Collect(0, (i, block) =>
         {
-            int next = block.IsInput ? i + 1 : i;
+            Int32 next = block.IsInput ? i + 1 : i;
             return ((i, block), next);
         }))
         {
@@ -55,18 +55,18 @@
 
     [Parameter]
     [SupplyParameterFromQuery(Name = "id")]
-    public string? Id { get; set; }
+    public String? Id { get; set; }
 
-    private bool _isCampaign;
+    private Boolean _isCampaign;
 
-    private string _title = "";
-    private int _level;
-    private string _output = "";
+    private String _title = "";
+    private Int32 _level;
+    private String _output = "";
     private List<ProblemBlock> _pbs = new();
-    private List<string> inputs = new();
-    private List<string> styles = new();
-    private bool _showNextLevel;
-    private bool _showCampaignEnd;
+    private List<String> inputs = new();
+    private List<String> styles = new();
+    private Boolean _showNextLevel;
+    private Boolean _showCampaignEnd;
 
     protected override async Task OnInitializedAsync()
     {
@@ -83,10 +83,10 @@
                 await _localStorage.SetItemAsync("codedash-campaign-level", 0);
             }
 
-            var level = await _localStorage.GetItemAsync<int>("codedash-campaign-level");
+            var level = await _localStorage.GetItemAsync<Int32>("codedash-campaign-level");
 
             HttpResponseMessage response0 = await _httpClient.GetAsync($"ProblemApi/Campaign/{level}");
-            string guid = await response0.Content.ReadAsStringAsync();
+            String guid = await response0.Content.ReadAsStringAsync();
 
             Id = guid;
             HttpResponseMessage response1 = await _httpClient.GetAsync($"ProblemApi/Get/{guid}");
@@ -97,7 +97,7 @@
         _output = p.Output!;
         _pbs = ProblemBlock.ParseProblemString(p.Chunks!);
         // Resize input list to match
-        int size = _pbs.Aggregate(0, (curr, next) => next.IsInput ? curr + 1 : curr);
+        Int32 size = _pbs.Aggregate(0, (curr, next) => next.IsInput ? curr + 1 : curr);
         inputs.Resize(size, "");
         styles.Resize(size, "");
     }
@@ -105,8 +105,8 @@
     private async void Submit()
     {
         HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"ProblemApi/Verify/{Id}", inputs);
-        List<int> results = response.Content.ReadFromJsonAsync<List<int>>().Result!;
-        foreach ((int value, int index) in results.Select((v, i) => (v, i)))
+        List<Int32> results = response.Content.ReadFromJsonAsync<List<Int32>>().Result!;
+        foreach ((Int32 value, Int32 index) in results.Select((v, i) => (v, i)))
         {
             styles[index] = value switch
             {
@@ -117,7 +117,7 @@
         }
 
         if (!results.TrueForAll(i => i == 1) || !_isCampaign) return;
-        var level = await _localStorage.GetItemAsync<int>("codedash-campaign-level");
+        var level = await _localStorage.GetItemAsync<Int32>("codedash-campaign-level");
         HttpResponseMessage response0 = await _httpClient.GetAsync($"ProblemApi/Campaign/{level + 1}");
         // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
         switch (response0.StatusCode)
@@ -144,7 +144,7 @@
             await _localStorage.SetItemAsync("codedash-campaign-level", 0);
         }
         
-        _level = await _localStorage.GetItemAsync<int>("codedash-campaign-level");
+        _level = await _localStorage.GetItemAsync<Int32>("codedash-campaign-level");
         await _localStorage.SetItemAsync("codedash-campaign-level", _level + 1);
         
         _navMan.NavigateTo(_navMan.Uri, forceLoad: true);
